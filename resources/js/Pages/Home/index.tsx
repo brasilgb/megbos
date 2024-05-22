@@ -1,10 +1,12 @@
+import Authenticated from '@/Layouts/AuthenticatedLayout'
 import React from 'react'
+import { PageProps } from '@/types';
 
 type Props = {}
 
-const Home = (props: Props) => {
+const Home = ({ auth }: PageProps) => {
   return (
-    <div>Home</div>
+    <Authenticated user={auth.user}>Home</Authenticated>
   )
 }
 
