@@ -6,7 +6,7 @@ export default function Dashboard() {
         <AdminLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
+                    Dashboard ssddsd
                 </h2>
             }
         >
