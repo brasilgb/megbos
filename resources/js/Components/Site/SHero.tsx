@@ -5,14 +5,14 @@ type Props = {}
 
 const SHero = (props: Props) => {
     return (
-        <section className='bg-[#F8D254] h-[600px]'>
+        <section className='bg-yellow-primary h-[600px]'>
             <div className='container mx-auto flex h-full'>
                 <div className='flex flex-col items-start justify-center gap-8 flex-1 h-full'>
                     <h1 className='text-5xl font-extrabold'>Content sections are made to display the benefits</h1>
                     <p className='text-2xl'>Content sections are made to display the benefits of your initial offering. This sections serve to communicate, educate and guide</p>
                     <Link
                         href="#"
-                        className="bg-[#033147] text-base font-bold text-white rounded-full px-4 py-2"
+                        className="bg-blue-primary hover:bg-blue-primary/90 text-base font-bold text-white rounded-full px-4 py-2"
                     >
                         Este é um botao hero
                     </Link>

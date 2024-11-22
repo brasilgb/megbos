@@ -46,7 +46,9 @@ const SHeader = (props: Props) => {
                 </div>
                 <div>
                     <Link
-                     href="#"
+                    method="get"
+                     href={route('dashboard')}
+                     as="button"
                      className="bg-[#033147] text-base font-bold text-white rounded-full px-4 py-2"
                       >
                         Entrar
