@@ -44,8 +44,8 @@ const Customers = ({ customers }: any) => {
               <TableBody>
                 {customers.map((customer: any) => (
                   <TableRow>
-                    <TableCell className="font-medium">INV001</TableCell>
-                    <TableCell className="font-medium">INV001</TableCell>
+                    <TableCell className="font-medium">{customer.customer}</TableCell>
+                    <TableCell className="font-medium">{customer.name}</TableCell>
                     <TableCell>Paid</TableCell>
                     <TableCell className="font-medium">Active</TableCell>
                     <TableCell>{moment().format("DD/MM/YYYY")}</TableCell>
