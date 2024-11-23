@@ -7,7 +7,7 @@ use App\Models\Admin\Customer;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class AHomeController extends Controller
+class ACustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class AHomeController extends Controller
     public function index()
     {
         $customers = Customer::get();
-        return Inertia::render('Admin/Dashboard', ['customers' => $customers]);
+        return Inertia::render('Admin/Customers/index', ['customers' => $customers]);
     }
 
     /**

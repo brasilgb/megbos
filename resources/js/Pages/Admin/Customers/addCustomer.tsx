@@ -3,7 +3,7 @@ import { Card } from '@/Components/ui/card';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head } from '@inertiajs/react';
 
-export default function Dashboard() {
+const Customers = () => {
   return (
     <AdminLayout>
       <Head title="Dashboard" />
@@ -14,14 +14,22 @@ export default function Dashboard() {
               <BreadcrumbItem>
                 <BreadcrumbLink href="/">Home</BreadcrumbLink>
               </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/components">Clientes</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Adicionar cliente</BreadcrumbPage>
+              </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
         <div className='px-6'>
           <div className='grid grid-cols-4'>
-          <Card className="">
-            You're logged in!
-          </Card>
+            <Card className="">
+              add
+            </Card>
           </div>
         </div>
       </div>
@@ -29,3 +37,4 @@ export default function Dashboard() {
     </AdminLayout>
   );
 }
+export default Customers;

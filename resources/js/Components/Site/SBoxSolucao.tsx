@@ -1,3 +1,4 @@
+import { Check } from 'lucide-react';
 import React from 'react'
 
 type Props = {}
@@ -12,11 +13,13 @@ const SBoxSolucao = (props: Props) => {
             </div>
             <div className='w-px h-[50%] bg-yellow-primary' />
             <div className='flex-1 p-10'>
-                <ul  className='leading-relaxed'>
-                    <li>Linha 1</li>
-                    <li>Linha 2</li>
-                    <li>Linha 3</li>
-                    <li>Linha 4</li>
+                <ul className='flex flex-col gap-2'>
+                    <li className='flex items-center gap-1 text-gray-600 text-base'><Check className='h-5 w-5 text-yellow-primary' /><span className='font-bold text-blue-primary'>Lorem ipsum dolor sit</span>: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                    <li className='flex items-center gap-1 text-gray-600 text-base'><Check className='h-5 w-5 text-yellow-primary' /><span className='font-bold text-blue-primary'>Lorem ipsum dolor sit</span>: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                    <li className='flex items-center gap-1 text-gray-600 text-base'><Check className='h-5 w-5 text-yellow-primary' /><span className='font-bold text-blue-primary'>Lorem ipsum dolor sit</span>: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                    <li className='flex items-center gap-1 text-gray-600 text-base'><Check className='h-5 w-5 text-yellow-primary' /><span className='font-bold text-blue-primary'>Lorem ipsum dolor sit</span>: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                    <li className='flex items-center gap-1 text-gray-600 text-base'><Check className='h-5 w-5 text-yellow-primary' /><span className='font-bold text-blue-primary'>Lorem ipsum dolor sit</span>: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                    <li className='flex items-center gap-1 text-gray-600 text-base'><Check className='h-5 w-5 text-yellow-primary' /><span className='font-bold text-blue-primary'>Lorem ipsum dolor sit</span>: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
                 </ul>
             </div>
         </div>

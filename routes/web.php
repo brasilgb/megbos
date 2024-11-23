@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AHomeController;
+use App\Http\Controllers\Admin\ACustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Tenant\THomeController;
@@ -14,6 +15,7 @@ Route::domain('megbos.test')->group(function () {
 
 Route::middleware(['auth', 'verified'])->domain('megbos.test')->group(function () {
     Route::get('/dashboard', [AHomeController::class, 'index'])->name('dashboard');
+    Route::resource('/clientes', ACustomerController::class);
 });
 
 Route::middleware('tenant')->domain('{company}.megbos.test')->group(function () {
