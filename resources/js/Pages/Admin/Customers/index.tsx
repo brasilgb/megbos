@@ -1,34 +1,60 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb';
 import { Button } from '@/Components/ui/button';
-import { Card } from '@/Components/ui/card';
+import { Card, CardContent, CardHeader } from '@/Components/ui/card';
+import { Input } from '@/Components/ui/input';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head } from '@inertiajs/react';
-import { SquarePen, Trash2 } from 'lucide-react';
+import { Head, Link } from '@inertiajs/react';
+import { Plus, Search, SquarePen, Trash2, Users2 } from 'lucide-react';
 import moment from 'moment';
 
 const Customers = ({ customers }: any) => {
-  console.log(customers);
 
   return (
     <AdminLayout>
-      <Head title="Dashboard" />
+      <Head title="Clientes" />
       <div className='flex flex-col gap-4 my-4'>
-        <div className='px-6'>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/">Home</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/components">Clientes</BreadcrumbLink>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+        <div className='flex items-center justify-between'>
+          <div className='flex items-start justify-start px-6 gap-2 text-gray-600'>
+            <Users2 className='h-6 w-6' /> <span className='text-xl font-bold'>Clientes</span>
+          </div>
+          <div className='px-6'>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/components">Clientes</BreadcrumbLink>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
         </div>
         <div className='px-6'>
           <Card className="">
+            <CardHeader className='flex flex-row items-center justify-between px-6 py-2 border-b'>
+              <CardContent className='p-0'>
+                <div className='relative'>
+                  <Input type="email" placeholder="Email" />
+                  <Search className='absolute right-1 top-2 text-gray-500' />
+                </div>
+              </CardContent>
+              <CardContent className='p-0'>
+                <Button
+                  asChild
+                  variant="add"
+                  size="icon"
+                >
+                  <Link
+                    href={route('clientes.create')}
+                  >
+                    <Plus />
+                  </Link>
+                </Button>
+              </CardContent>
+            </CardHeader>
             <Table>
               <TableCaption>A list of your recent invoices.</TableCaption>
               <TableHeader>
@@ -64,7 +90,6 @@ const Customers = ({ customers }: any) => {
           </Card>
         </div>
       </div>
-
     </AdminLayout>
   );
 }

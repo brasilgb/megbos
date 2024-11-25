@@ -23,7 +23,7 @@ class ACustomerController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Customers/addCustomer');
     }
 
     /**

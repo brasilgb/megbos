@@ -16,17 +16,25 @@ return new class extends Migration
             $table->string('name');
             $table->string('domain')->unique();
             $table->string('database')->unique();
+
             $table->string('customer');
             $table->string('cpfcnpj');
             $table->string('cep');
             $table->string('state');
+            
             $table->string('city');
             $table->string('district');
             $table->string('street');
+
+            
             $table->string('number');
             $table->string('complement');
-            $table->string('phone');
+            $table->string('email');
+            $table->string('telephone');
+            
             $table->string('whatsapp'); 
+            $table->string('status'); 
+            $table->string('payment'); 
             $table->timestamps();
         });
     }
