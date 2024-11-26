@@ -3,7 +3,9 @@ import { Card } from '@/Components/ui/card';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head } from '@inertiajs/react';
 
-const Customers = () => {
+const Customers = ({ customers }: any) => {
+  console.log(customers);
+  
   return (
     <AdminLayout>
       <Head title="Dashboard" />

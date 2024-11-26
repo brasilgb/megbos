@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { Plus, Search, SquarePen, Trash2, Users2 } from 'lucide-react';
 import moment from 'moment';
 
@@ -76,8 +76,12 @@ const Customers = ({ customers }: any) => {
                     <TableCell className="font-medium">Active</TableCell>
                     <TableCell>{moment().format("DD/MM/YYYY")}</TableCell>
                     <TableCell className="flex items-center justify-end gap-2">
-                      <Button variant='edit' size='icon'>
+                      <Button variant='edit' size='icon' asChild>
+                        <Link 
+                        href={route('clientes.edit', customer.id)}
+                        >
                         <SquarePen />
+                        </Link>
                       </Button>
                       <Button variant='destructive' size='icon'>
                         <Trash2 />

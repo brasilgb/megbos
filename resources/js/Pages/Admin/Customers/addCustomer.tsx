@@ -1,13 +1,15 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb';
-import { Card } from '@/Components/ui/card';
+import { Card, CardFooter } from '@/Components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/ui/form';
 import { Input } from '@/Components/ui/input';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, router } from '@inertiajs/react';
-import { Users2 } from 'lucide-react';
+import { Head, Link, router } from '@inertiajs/react';
+import { Save, Users2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from 'zod';
+import { Button } from '@/Components/ui/button';
+import { maskCpfCnpj, normalize, unMask } from '@/Utils/mask';
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Nome para o domínio" }),
@@ -55,7 +57,13 @@ const AddCustomer = () => {
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    router.post(route("users.store"), values);
+    router.post(route("clientes.store"), values);
+  }
+
+  const handleDomainData = (value: any) => {
+    form.setValue('name', value);
+    form.setValue('domain', value+'.megbos.test');
+    form.setValue('database', value);
   }
 
   return (
@@ -97,7 +105,7 @@ const AddCustomer = () => {
                       <FormItem className="flex flex-col">
                         <FormLabel>Nome para o domínio</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} />
+                          <Input placeholder="" {...field} onChange={(e) => handleDomainData(e.target.value)} value={normalize(field.value)}/>
                         </FormControl>
                         {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
@@ -113,7 +121,6 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} readOnly />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -127,7 +134,6 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} readOnly />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -136,56 +142,52 @@ const AddCustomer = () => {
                 <div className='grid sm:grid-cols-4 mt-4 gap-2'>
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="customer"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>Nome do cliente</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="cpfcnpj"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>CPF/CNPJ</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="cep"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>CEP</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="state"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>UF</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -194,42 +196,39 @@ const AddCustomer = () => {
                 <div className='grid sm:grid-cols-3 mt-4 gap-2'>
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="city"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>Cidade</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="district"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>Bairro</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="street"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>Logradouro</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -238,56 +237,52 @@ const AddCustomer = () => {
                 <div className='grid sm:grid-cols-4 mt-4 gap-2'>
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="number"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>Número</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="complement"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>Complemento</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="email"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>E-mail</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="telephone"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>Telefone</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -296,47 +291,53 @@ const AddCustomer = () => {
                 <div className='grid sm:grid-cols-3 mt-4 gap-2'>
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="whatsapp"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>Whatsapp</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="status"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>Status</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="database"
+                    name="payment"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Nome do banco de dados</FormLabel>
+                        <FormLabel>Pagamento</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} readOnly />
+                          <Input placeholder="" {...field} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
+                <CardFooter className='flex justify-end border-t border-gray-200 py-4 pb-0 px-0'>
+                  <Button
+                    variant="add"
+                    size="default"
+                    disabled={!form.formState.isDirty && !form.formState.isValid}
+                  >
+                    <Save /><span>Salvar</span>
+                  </Button>
+                </CardFooter>
               </form>
             </Form>
           </Card>
