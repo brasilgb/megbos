@@ -1,14 +1,16 @@
+import FlashMessage from '@/Components/FlashMessage';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardHeader } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Plus, Search, SquarePen, Trash2, Users2 } from 'lucide-react';
 import moment from 'moment';
 
 const Customers = ({ customers }: any) => {
+  const { flash } = usePage().props as any;
 
   return (
     <AdminLayout>
@@ -32,6 +34,7 @@ const Customers = ({ customers }: any) => {
             </Breadcrumb>
           </div>
         </div>
+        {flash?.message && <FlashMessage message={flash?.message} />}  
         <div className='px-6'>
           <Card className="">
             <CardHeader className='flex flex-row items-center justify-between px-6 py-2 border-b'>
@@ -48,7 +51,7 @@ const Customers = ({ customers }: any) => {
                   size="icon"
                 >
                   <Link
-                    href={route('clientes.create')}
+                    href={route('customers.create')}
                   >
                     <Plus />
                   </Link>
@@ -77,10 +80,10 @@ const Customers = ({ customers }: any) => {
                     <TableCell>{moment().format("DD/MM/YYYY")}</TableCell>
                     <TableCell className="flex items-center justify-end gap-2">
                       <Button variant='edit' size='icon' asChild>
-                        <Link 
-                        href={route('clientes.edit', customer.id)}
+                        <Link
+                          href={route('customers.edit', customer.id)}
                         >
-                        <SquarePen />
+                          <SquarePen />
                         </Link>
                       </Button>
                       <Button variant='destructive' size='icon'>

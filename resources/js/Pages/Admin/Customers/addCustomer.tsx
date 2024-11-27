@@ -3,38 +3,46 @@ import { Card, CardFooter } from '@/Components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/ui/form';
 import { Input } from '@/Components/ui/input';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Save, Users2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from 'zod';
 import { Button } from '@/Components/ui/button';
-import { maskCpfCnpj, normalize, unMask } from '@/Utils/mask';
-
-const formSchema = z.object({
-  name: z.string().min(1, { message: "Nome para o domínio" }),
-  domain: z.string(),
-  database: z.string(),
-  customer: z.string().min(1, { message: "Digite o nome do cliente" }),
-  cpfcnpj: z.string().min(1, { message: "Digite o CPF/CNPJ" }),
-  cep: z.string().min(1, { message: "Selecione o CEP" }),
-  state: z.string().min(1, { message: "Digite o estado" }),
-  city: z.string().min(1, { message: "Digite a cidade" }),
-  district: z.string().min(1, { message: "Digite o bairro" }),
-  street: z.string().min(1, { message: "Digite o logradouro" }),
-  number: z.string().min(1, { message: "Digite o numero" }),
-  complement: z.string().min(1, { message: "Digite o complemento" }),
-  email: z.string().min(1, { message: "Digite o amail" }),
-  telephone: z.string().min(1, { message: "Digite o telefone" }),
-  whatsapp: z.string().min(1, { message: "Digite o Whatapp" }),
-  status: z.string().min(1, { message: "Selecione o status" }),
-  payment: z.string().min(1, { message: "Selecione o agamento" })
-});
+import { maskCep, maskCpfCnpj, maskPhone, normalize, unMask } from '@/Utils/mask';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/Components/ui/select"
+// const formSchema = z.object({
+//   name: z.string().min(1, { message: "Nome para o domínio" }),
+//   domain: z.string(),
+//   database: z.string(),
+//   customer: z.string().min(1, { message: "Digite o nome do cliente" }),
+//   cpfcnpj: z.string().min(1, { message: "Digite o CPF/CNPJ" }),
+//   cep: z.string().min(1, { message: "Selecione o CEP" }),
+//   state: z.string().min(1, { message: "Digite o estado" }),
+//   city: z.string().min(1, { message: "Digite a cidade" }),
+//   district: z.string().min(1, { message: "Digite o bairro" }),
+//   street: z.string().min(1, { message: "Digite o logradouro" }),
+//   number: z.string().min(1, { message: "Digite o numero" }),
+//   complement: z.string().min(1, { message: "Digite o complemento" }),
+//   email: z.string().min(1, { message: "Digite o amail" }),
+//   telephone: z.string().min(1, { message: "Digite o telefone" }),
+//   whatsapp: z.string().min(1, { message: "Digite o Whatapp" }),
+//   status: z.string().min(1, { message: "Selecione o status" }),
+//   payment: z.string().min(1, { message: "Selecione o agamento" })
+// });
 
 const AddCustomer = () => {
+  const { errors } = usePage().props as any;
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm({
     defaultValues: {
       "name": "",
       "domain": "",
@@ -55,16 +63,30 @@ const AddCustomer = () => {
       "payment": "",
     }
   });
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: any) {
     console.log(values);
-    router.post(route("clientes.store"), values);
+    router.post(route("customers.store"), values);
   }
 
   const handleDomainData = (value: any) => {
     form.setValue('name', value);
-    form.setValue('domain', value+'.megbos.test');
+    form.setValue('domain', value + '.megbos.test');
     form.setValue('database', value);
   }
+
+  const getCep = (cep: any) => {
+    const cleanCep = unMask(cep);
+    fetch(`https://viacep.com.br/ws/${cleanCep}/json/`)
+      .then((response: any) => response.json())
+      .then((result: any) => {
+        form.setValue('state', result.uf);
+        form.setValue('city', result.localidade);
+        form.setValue('district', result.bairro);
+        form.setValue('street', result.logradouro);
+        form.setValue('complement', result.complemento);
+      })
+      .catch((error) => console.error(error));
+  };
 
   return (
     <AdminLayout>
@@ -82,7 +104,7 @@ const AddCustomer = () => {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/components">Clientes</BreadcrumbLink>
+                  <Link href={route('customers.index')}>Clientes</Link>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
@@ -105,9 +127,9 @@ const AddCustomer = () => {
                       <FormItem className="flex flex-col">
                         <FormLabel>Nome para o domínio</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} onChange={(e) => handleDomainData(e.target.value)} value={normalize(field.value)}/>
+                          <Input placeholder="" {...field} onChange={(e) => handleDomainData(e.target.value)} value={normalize(field.value)} />
                         </FormControl>
-                        {/* {errors.cnpj && <div className="text-red-600 text-sm font-medium">{errors.cnpj}</div>} */}
+                        {errors.name && <div className="text-red-600 text-sm font-medium">{errors.name}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -121,6 +143,7 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} readOnly />
                         </FormControl>
+                        {errors.domain && <div className="text-red-600 text-sm font-medium">{errors.domain}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -134,6 +157,7 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} readOnly />
                         </FormControl>
+                        {errors.database && <div className="text-red-600 text-sm font-medium">{errors.database}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -149,6 +173,7 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} />
                         </FormControl>
+                        {errors.customer && <div className="text-red-600 text-sm font-medium">{errors.customer}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -160,8 +185,9 @@ const AddCustomer = () => {
                       <FormItem className="flex flex-col">
                         <FormLabel>CPF/CNPJ</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} />
+                          <Input placeholder="" {...field} value={maskCpfCnpj(field.value)} maxLength={18} />
                         </FormControl>
+                        {errors.cpfcnpj && <div className="text-red-600 text-sm font-medium">{errors.cpfcnpj}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -173,8 +199,9 @@ const AddCustomer = () => {
                       <FormItem className="flex flex-col">
                         <FormLabel>CEP</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} />
+                          <Input placeholder="" {...field} value={maskCep(field.value)} maxLength={9} onBlur={(e) => getCep(e.target.value)} />
                         </FormControl>
+                        {errors.cep && <div className="text-red-600 text-sm font-medium">{errors.cep}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -188,6 +215,7 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} />
                         </FormControl>
+                        {errors.state && <div className="text-red-600 text-sm font-medium">{errors.state}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -203,6 +231,7 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} />
                         </FormControl>
+                        {errors.city && <div className="text-red-600 text-sm font-medium">{errors.city}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -216,6 +245,7 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} />
                         </FormControl>
+                        {errors.district && <div className="text-red-600 text-sm font-medium">{errors.district}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -229,6 +259,7 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} />
                         </FormControl>
+                        {errors.street && <div className="text-red-600 text-sm font-medium">{errors.street}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -244,6 +275,7 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} />
                         </FormControl>
+                        {errors.number && <div className="text-red-600 text-sm font-medium">{errors.number}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -257,6 +289,7 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} />
                         </FormControl>
+                        {errors.complement && <div className="text-red-600 text-sm font-medium">{errors.complement}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -270,6 +303,7 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} />
                         </FormControl>
+                        {errors.email && <div className="text-red-600 text-sm font-medium">{errors.email}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -281,8 +315,9 @@ const AddCustomer = () => {
                       <FormItem className="flex flex-col">
                         <FormLabel>Telefone</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} />
+                          <Input placeholder="" {...field} value={maskPhone(field.value)} maxLength={15} />
                         </FormControl>
+                        {errors.telephone && <div className="text-red-600 text-sm font-medium">{errors.telephone}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -298,6 +333,7 @@ const AddCustomer = () => {
                         <FormControl>
                           <Input placeholder="" {...field} />
                         </FormControl>
+                        {errors.whatsapp && <div className="text-red-600 text-sm font-medium">{errors.whatsapp}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -309,8 +345,19 @@ const AddCustomer = () => {
                       <FormItem className="flex flex-col">
                         <FormLabel>Status</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} />
+                          <Select {...field} onValueChange={field.onChange} value={field.value}>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Selecione o status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectItem value="active">Ativo</SelectItem>
+                                <SelectItem value="inactive">Inativo</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
                         </FormControl>
+                        {errors.status && <div className="text-red-600 text-sm font-medium">{errors.status}</div>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -322,8 +369,22 @@ const AddCustomer = () => {
                       <FormItem className="flex flex-col">
                         <FormLabel>Pagamento</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} />
+
+                          <Select {...field} onValueChange={field.onChange} value={field.value}>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Selecine o pagamento" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectItem value="paid">Pago</SelectItem>
+                                <SelectItem value="pending">Pendente</SelectItem>
+                                <SelectItem value="expired">Vencido</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+
                         </FormControl>
+                        {errors.payment && <div className="text-red-600 text-sm font-medium">{errors.payment}</div>}
                         <FormMessage />
                       </FormItem>
                     )}

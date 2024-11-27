@@ -9,13 +9,13 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::domain('megbos.test')->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-});
+// Route::domain('megbos.test')->group(function () {
+//     Route::get('/', [HomeController::class, 'index'])->name('home');
+// });
 
 Route::middleware(['auth', 'verified'])->domain('megbos.test')->group(function () {
-    Route::get('/dashboard', [AHomeController::class, 'index'])->name('dashboard');
-    Route::resource('/clientes', ACustomerController::class);
+    Route::get('/', [AHomeController::class, 'index'])->name('dashboard');
+    Route::resource('/customers', ACustomerController::class);
 });
 
 Route::middleware('tenant')->domain('{company}.megbos.test')->group(function () {

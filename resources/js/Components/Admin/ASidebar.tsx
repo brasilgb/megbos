@@ -25,7 +25,7 @@ export function ASidebar() {
         },
         {
             title: "Clientes",
-            url: route('clientes.index'),
+            url: route('customers.index'),
             icon: Users2,
         },
         {
