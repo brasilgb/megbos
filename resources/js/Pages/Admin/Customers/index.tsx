@@ -1,3 +1,4 @@
+import ModalDelete from '@/Components/Admin/AModalDelete';
 import FlashMessage from '@/Components/FlashMessage';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb';
 import { Button } from '@/Components/ui/button';
@@ -34,7 +35,7 @@ const Customers = ({ customers }: any) => {
             </Breadcrumb>
           </div>
         </div>
-        {flash?.message && <FlashMessage message={flash?.message} />}  
+        {flash?.message && <FlashMessage message={flash?.message} />}
         <div className='px-6'>
           <Card className="">
             <CardHeader className='flex flex-row items-center justify-between px-6 py-2 border-b'>
@@ -86,9 +87,12 @@ const Customers = ({ customers }: any) => {
                           <SquarePen />
                         </Link>
                       </Button>
-                      <Button variant='destructive' size='icon'>
-                        <Trash2 />
-                      </Button>
+                      <ModalDelete
+                        url="customers.destroy"
+                        param={customer?.id}
+                        title='Excluir Cliente'
+                        content={`o cliente ${customer?.name}`}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
