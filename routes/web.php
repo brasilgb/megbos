@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AHomeController;
 use App\Http\Controllers\Admin\ACustomerController;
+use App\Http\Controllers\Admin\AUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Tenant\THomeController;
@@ -16,6 +17,7 @@ use Inertia\Inertia;
 Route::middleware(['auth', 'verified'])->domain('megbos.test')->group(function () {
     Route::get('/', [AHomeController::class, 'index'])->name('dashboard');
     Route::resource('/customers', ACustomerController::class);
+    Route::resource('/users', AUserController::class);
 });
 
 Route::middleware('tenant')->domain('{company}.megbos.test')->group(function () {

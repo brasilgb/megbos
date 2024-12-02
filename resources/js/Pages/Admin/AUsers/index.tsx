@@ -1,26 +1,26 @@
 import ModalDelete from '@/Components/Admin/AModalDelete';
 import FlashMessage from '@/Components/FlashMessage';
 import { Badge } from '@/Components/ui/badge';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/Components/ui/breadcrumb';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardHeader } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Plus, Search, SquarePen, Trash2, Users2 } from 'lucide-react';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { Plus, Search, SquarePen, User } from 'lucide-react';
 import moment from 'moment';
 
-const Customers = ({ customers }: any) => {
+const AUsers = ({ ausers }: any) => {
   const { flash } = usePage().props as any;
 
   return (
     <AdminLayout>
-      <Head title="Clientes" />
+      <Head title="Usuários" />
       <div className='flex flex-col gap-4 my-4'>
         <div className='flex items-center justify-between'>
           <div className='flex items-start justify-start px-6 gap-2 text-gray-600'>
-            <Users2 className='h-6 w-6' /> <span className='text-xl font-bold'>Clientes</span>
+            <User className='h-6 w-6' /> <span className='text-xl font-bold'>Usuários</span>
           </div>
           <div className='px-6'>
             <Breadcrumb>
@@ -30,7 +30,7 @@ const Customers = ({ customers }: any) => {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/components">Clientes</BreadcrumbLink>
+                  <BreadcrumbLink href="/components">Usuários</BreadcrumbLink>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -53,7 +53,7 @@ const Customers = ({ customers }: any) => {
                   size="icon"
                 >
                   <Link
-                    href={route('customers.create')}
+                    href={route('users.create')}
                   >
                     <Plus />
                   </Link>
@@ -61,38 +61,39 @@ const Customers = ({ customers }: any) => {
               </CardContent>
             </CardHeader>
             <Table>
-              <TableCaption>A list of your recent invoices.</TableCaption>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">Cliente</TableHead>
-                  <TableHead>Nome do dominio</TableHead>
-                  <TableHead>Financeiro</TableHead>
+                  <TableHead className="w-[40px]">#</TableHead>
+                  <TableHead className="w-[100px]">Usuário</TableHead>
+                  <TableHead>E-mail</TableHead>
+                  <TableHead>Função</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Cadastro</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {customers.map((customer: any) => (
+                {ausers?.data?.map((user: any) => (
                   <TableRow>
-                    <TableCell className="font-medium">{customer.customer}</TableCell>
-                    <TableCell className="font-medium">{customer.name}</TableCell>
-                    <TableCell>Paid</TableCell>
-                    <TableCell className="font-medium"><Badge variant={`${customer?.status == "active" ? "active" : "destructive"}`} >{customer?.status}</Badge></TableCell>
-                    <TableCell>{moment().format("DD/MM/YYYY")}</TableCell>
+                    <TableCell className="font-medium">{user?.id}</TableCell>
+                    <TableCell className="font-medium">{user?.name}</TableCell>
+                    <TableCell className="font-medium">{user?.email}</TableCell>
+                    <TableCell>{user?.roles}</TableCell>
+                    <TableCell className="font-medium"><Badge variant={`${user?.status == "active" ? "active" : "destructive"}`} >{user?.status}</Badge></TableCell>
+                    <TableCell>{moment(user?.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className="flex items-center justify-end gap-2">
                       <Button variant='edit' size='icon' asChild>
                         <Link
-                          href={route('customers.edit', customer.id)}
+                          href={route('users.edit', user.id)}
                         >
                           <SquarePen />
                         </Link>
                       </Button>
                       <ModalDelete
-                        url="customers.destroy"
-                        param={customer?.id}
+                        url="users.destroy"
+                        param={user?.id}
                         title='Excluir Cliente'
-                        content={`o cliente ${customer?.name}`}
+                        content={`o cliente ${user?.name}`}
                       />
                     </TableCell>
                   </TableRow>
@@ -105,4 +106,5 @@ const Customers = ({ customers }: any) => {
     </AdminLayout>
   );
 }
-export default Customers;
+
+export default AUsers;

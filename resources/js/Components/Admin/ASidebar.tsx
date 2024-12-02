@@ -30,7 +30,7 @@ export function ASidebar() {
         },
         {
             title: "Usuário",
-            url: "#",
+            url: route('users.index'),
             icon: User,
         },
         // {

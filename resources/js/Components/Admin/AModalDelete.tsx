@@ -21,7 +21,6 @@ interface ModalDeleteProps {
 }
 
 const ModalDelete = ({ url, param, title, content }: ModalDeleteProps) => {
-    console.log(url + '/' + param);
     return (
         <Dialog>
             <DialogTrigger asChild>

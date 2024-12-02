@@ -159,6 +159,7 @@ class ACustomerController extends Controller
                 'payment' => 'pagamento',
             ]
         );
+        $customer->update($data);
         Session::flash('success', 'Cliente editado com sucesso!');
         return redirect()->route('customers.show', ['customer' => $customer->id]);
     }
@@ -166,8 +167,11 @@ class ACustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Customer $customer)
     {
-        //
+        DB::statement("DROP DATABASE $customer->name");
+        $customer->delete();
+        Session::flash('success', 'Cliente deletado com sucesso');
+        return Redirect::route('customers.index');
     }
 }

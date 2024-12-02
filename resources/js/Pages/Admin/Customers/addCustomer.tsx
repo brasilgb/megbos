@@ -6,8 +6,6 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Save, Users2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from 'zod';
 import { Button } from '@/Components/ui/button';
 import { maskCep, maskCpfCnpj, maskPhone, normalize, unMask } from '@/Utils/mask';
 import {
@@ -63,6 +61,7 @@ const AddCustomer = () => {
       "payment": "",
     }
   });
+  
   function onSubmit(values: any) {
     console.log(values);
     router.post(route("customers.store"), values);
