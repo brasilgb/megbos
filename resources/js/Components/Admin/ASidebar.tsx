@@ -22,16 +22,19 @@ export function ASidebar() {
             title: "Home",
             url: route('dashboard'),
             icon: Home,
+            active: route().current('dashboard')
         },
         {
             title: "Clientes",
             url: route('customers.index'),
             icon: Users2,
+            active: route().current('customers.*')
         },
         {
             title: "Usuário",
             url: route('users.index'),
             icon: User,
+            active: route().current('users.*')
         },
         // {
         //     title: "Search",
@@ -55,12 +58,11 @@ export function ASidebar() {
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Application</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild isActive className="text-base font-semibold">
+                                    <SidebarMenuButton asChild isActive={item.active} className="text-base font-semibold">
                                         <Link
                                             href={item.url}>
                                             <item.icon />

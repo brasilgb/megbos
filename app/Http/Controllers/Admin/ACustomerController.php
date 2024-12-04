@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
-use Spatie\Multitenancy\Models\Tenant;
 
 class ACustomerController extends Controller
 {

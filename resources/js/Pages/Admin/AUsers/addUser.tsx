@@ -11,8 +11,6 @@ import { Eye, EyeOff, Save, User } from 'lucide-react'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-type Props = {}
-
 const addUser = () => {
     const { errors } = usePage().props as any;
     const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -47,15 +45,15 @@ const addUser = () => {
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem>
-                                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                                    <Link href={route('dashboard')}>Home</Link>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem>
-                                    <Link href={route('customers.index')}>Clientes</Link>
+                                    <Link href={route('users.index')}>Usuários</Link>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem>
-                                    <BreadcrumbPage>Adicionar cliente</BreadcrumbPage>
+                                    <BreadcrumbPage>Adicionar usuário</BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
