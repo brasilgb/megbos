@@ -8,7 +8,7 @@ const TSideTop = ({ colapside }: TSideTopProps) => {
     return (
         <div className='h-32 flex items-center gap-2'>
             <div className={`${colapside ? 'w-20' : 'w-28'} rounded-full p-1`}>
-                <img src="default.jpg" alt="" className='rounded-full' />
+                <img src="/default.jpg" alt="" className='rounded-full' />
             </div>
             <h1 className={`${colapside ? '' : 'hidden'} transition-all duration-300 sm:text-gray-50 text-gray-500`}>
                 Empresa
@@ -17,4 +17,4 @@ const TSideTop = ({ colapside }: TSideTopProps) => {
     )
 }
 
-export default TSideTop
+export default TSideTop;

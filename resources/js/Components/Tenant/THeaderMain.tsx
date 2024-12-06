@@ -12,7 +12,7 @@ const THeaderMain = (props: THeaderMainProps) => {
         <div className='flex items-center justify-between pb-3'>
             <div className='flex items-center justify-start gap-2'>
                 <props.icon size={30} />
-                <h1 className=''>{props.title}</h1>
+                <h1 className='text-xl'>{props.title}</h1>
             </div>
             <div>
                 <Breadcrumb>

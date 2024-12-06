@@ -19,6 +19,7 @@ const TSidebar = (props: Props) => {
         </div>
         <div className={`md:flex flex-col hidden`}>
           <TSideTop colapside={colapseSideBar} />
+          <div className='h-px bg-gray-100/20 w-full mb-2' />
           <TMenuSide colapside={colapseSideBar} />
         </div>
       </aside>
@@ -31,6 +32,7 @@ const TSidebar = (props: Props) => {
         </div>
         <div className={`${colapseMobile ? 'flex' : 'hidden'} flex-col p-2`}>
           <TSideTop colapside={colapseSideBar} />
+          <div className='h-px bg-gray-100/50 w-full my-2' />
           <TMenuSide colapside={colapseMobile} />
         </div>
       </aside>

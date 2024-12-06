@@ -21,6 +21,7 @@ interface ModalDeleteProps {
 }
 
 const ModalDelete = ({ url, param, title, content }: ModalDeleteProps) => {
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -30,14 +31,14 @@ const ModalDelete = ({ url, param, title, content }: ModalDeleteProps) => {
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     <DialogDescription>
-                    Você realmente deseja excluir {content}?
+                        Você realmente deseja excluir {content}?
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex items-center space-x-2">
                     <div className="grid flex-1 gap-2 justify-center text-sm text-red-500">
-                    <div className="flex items-center gap-2">
-                    <TriangleAlert className="w-4 h-4" />Esta operação não poderá ser desfeita.
-                    </div>
+                        <div className="flex items-center gap-2">
+                            <TriangleAlert className="w-4 h-4" />Esta operação não poderá ser desfeita.
+                        </div>
                     </div>
                 </div>
                 <DialogFooter className="flex flex-row justify-between">

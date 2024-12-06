@@ -14,14 +14,17 @@ use Inertia\Inertia;
 
 
 
-
 Route::middleware('tenant')->domain('{company}.megbos.test')->group(function () {
     Route::get('/', [THomeController::class, 'index'])->name('tdashboard');
     Route::resource('/tcustomers', TCustomerController::class);
 });
-Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::domain('megbos.test')->group(function () {
+    Route::get('/', [HomeController::class, 'index']);
+});
+
 Route::middleware(['auth', 'verified'])->domain('megbos.test')->group(function () {
-    Route::get('/', [AHomeController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AHomeController::class, 'index'])->name('dashboard');
     Route::resource('/customers', ACustomerController::class);
     Route::resource('/users', AUserController::class);
 });

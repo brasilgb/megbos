@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Home } from 'lucide-react';
+import { Home, Users2 } from 'lucide-react';
 import React from 'react'
 import { useRoute } from '../../../../vendor/tightenco/ziggy/src/js';
 
@@ -8,31 +8,31 @@ interface TMenuSideProps {
 }
 
 const TMenuSide = ({ colapside }: TMenuSideProps) => {
-const params = route().params;
+    const params = route().params;
 
 
     const sideNavItems = [
         {
             label: 'Home',
-            url: route('tdashboard',params),
+            url: route('tdashboard', params),
             icon: Home,
-            active: true
+            active: route().current('tdashboard', params)
         },
         {
             label: 'Clientes',
-            url: route('tcustomers.index',params),
-            icon: Home,
-            active: false
+            url: route('tcustomers.index', params),
+            icon: Users2,
+            active: route().current('tcustomers.*', params)
         }
     ];
     return (
         <div className='w-full'>
             <ul className='flex flex-col gap-2'>
                 {sideNavItems?.map((item: any, idx: number) => (
-                    <li key={idx} className={`${item.active && 'bg-gray-50 text-sky-800'} text-white rounded-md hover:bg-gray-50/80 h-8 flex items-center ${!colapside && 'justify-center'} p-2 cursor-pointer`}>
+                    <li key={idx} className={`${item.active ? 'bg-gray-50 text-sky-800' : 'text-gray-50'} rounded-md hover:bg-gray-50/80 hover:text-sky-800/50 h-8 flex items-center ${!colapside && 'justify-center'} p-2 cursor-pointer transition-colors duration-300`}>
                         <Link
                             href={item.url}
-                            className='flex items-center gap-1'
+                            className='flex items-center gap-1 w-full'
                         >
                             <item.icon size="20" />
                             <div className={`${!colapside ? 'hidden' : ''} transition-all duration-500`}>{item.label}</div>
