@@ -11,7 +11,7 @@ type TenantLayoutProps = {
 const TenantLayout = ({ children }: TenantLayoutProps) => {
   return (
     <div className='flex items-start justify-start bg-gray-200'>
-      <div className='bg-sky-800 sm:border-r sm:border-r-white shadow sm:min-h-screen'>
+      <div className='bg-blue-primary sm:border-r sm:border-r-white shadow sm:min-h-screen'>
         <TSidebar />
       </div>
       <div className='bg-gray-100 flex flex-col min-h-screen flex-1'>

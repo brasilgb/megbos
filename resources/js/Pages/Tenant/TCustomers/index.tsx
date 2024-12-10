@@ -13,7 +13,7 @@ import moment from 'moment';
 import React from 'react'
 
 const TCustomers = ({ customers }: any) => {
-  const params = route().params;
+  const params = route().params.company;
   return (
     <TenantLayout>
       <Head title='Clientes' />
@@ -43,7 +43,7 @@ const TCustomers = ({ customers }: any) => {
               size="icon"
             >
               <Link
-                href={route('tcustomers.create', params)}
+                href={route('clientes.create', params)}
               >
                 <Plus />
               </Link>
@@ -74,14 +74,14 @@ const TCustomers = ({ customers }: any) => {
                   <TableCell className="flex items-center justify-end gap-2">
                     <Button variant='edit' size='icon' asChild>
                       <Link
-                        href={route('customers.edit', customer?.id)}
+                        href={route('clientes.edit', {'cliente': customer.id, 'company': params})}
                       >
                         <SquarePen />
                       </Link>
                     </Button>
                     <ModalDelete
-                      url="customers.destroy"
-                      param={customer?.id}
+                      url="clientes.destroy"
+                      param={{'cliente': customer.id, 'company': params}}
                       title='Excluir Cliente'
                       content={`o cliente ${customer?.nome}`}
                     />

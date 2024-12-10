@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tcustomers', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->primary()->index();
             $table->string('cpf', 50)->nullable();
-            $table->date('nascimento')->nullable();
+            $table->string('nascimento', 10)->nullable();
             $table->string('nome', 50);
             $table->string('email', 50)->nullable();
             $table->string('cep', 20)->nullable();

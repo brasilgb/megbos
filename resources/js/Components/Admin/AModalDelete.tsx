@@ -15,12 +15,13 @@ import { Link, router } from "@inertiajs/react";
 
 interface ModalDeleteProps {
     url: string;
-    param: string;
+    param: any;
     title: string;
     content: string;
 }
 
 const ModalDelete = ({ url, param, title, content }: ModalDeleteProps) => {
+    const params = route().params.company;
 
     return (
         <Dialog>
@@ -48,6 +49,11 @@ const ModalDelete = ({ url, param, title, content }: ModalDeleteProps) => {
                         </Button>
                     </DialogClose>
                     <Button variant="destructive" asChild>
+                        {/* const { delete: destroy } = useForm();
+    const handleDelete = () => { 
+        destroy(route(url, ['mouse',1 ]));
+        destroy(route(url, [param.company , param.tcustomer ]));
+    } */}
                         <Link
                             href={route(url, param)}
                             as="button"

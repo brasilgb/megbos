@@ -14,7 +14,7 @@ const TSidebar = (props: Props) => {
       <aside className={`${colapseSideBar ? 'md:w-[16rem]' : 'md:w-14 w-0'} transition-all duration-300 relative md:p-2`}>
         <div
           onClick={() => setColapseSideBar(!colapseSideBar)}
-          className='h-6 w-6 bg-gray-50 border-2 border-sky-800 shadow rounded-full sm:flex hidden items-center justify-center absolute -right-3 top-3 cursor-pointer z-10'>
+          className='h-6 w-6 bg-gray-50 border-2 border-blue-primary shadow rounded-full sm:flex hidden items-center justify-center absolute -right-3 top-3 cursor-pointer z-10'>
           <ChevronRight className={`h-5 w-5 duration-500 ${colapseSideBar ? '-rotate-180' : 'rotate-0'}`} />
         </div>
         <div className={`md:flex flex-col hidden`}>

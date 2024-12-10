@@ -20,9 +20,9 @@ const TMenuSide = ({ colapside }: TMenuSideProps) => {
         },
         {
             label: 'Clientes',
-            url: route('tcustomers.index', params),
+            url: route('clientes.index', params),
             icon: Users2,
-            active: route().current('tcustomers.*', params)
+            active: route().current('clientes.*', params)
         }
     ];
     return (

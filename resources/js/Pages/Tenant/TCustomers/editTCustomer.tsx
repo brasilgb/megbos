@@ -13,36 +13,33 @@ import { useForm } from "react-hook-form"
 
 type Props = {}
 
-const addTCustomer = ({ customer }: any) => {
-    const params = route().params;
-    const { errors } = usePage().props as any;
+const addTCustomer = ({ cliente, errors }: any) => {
+    const params = route().params.company;
 
-    console.log(customer !== null ? customer + 1 : 1);
     const form = useForm({
         defaultValues: {
-            id: customer !== null ? customer.id + 1 : 1,
-            cpf: "",
-            nascimento: "",
-            nome: "",
-            email: "",
-            cep: "",
-            uf: "",
-            cidade: "",
-            bairro: "",
-            logradouro: "",
-            numero: "",
-            complemento: "",
-            telefone: "",
-            whatsapp: "",
-            contato: "",
-            telcontato: "",
-            obs: "",
+            id: cliente?.id,
+            cpf: cliente?.cpf,
+            nascimento: cliente?.nascimento,
+            nome: cliente?.nome,
+            email: cliente?.email,
+            cep: cliente?.cep,
+            uf: cliente?.uf,
+            cidade: cliente?.cidade,
+            bairro: cliente?.bairro,
+            logradouro: cliente?.logradouro,
+            numero: cliente?.numero,
+            complemento: cliente?.complemento,
+            telefone: cliente?.telefone,
+            whatsapp: cliente?.whatsapp,
+            contato: cliente?.contato,
+            telcontato: cliente?.telcontato,
+            obs: cliente?.obs,
         }
     });
 
-
     function onSubmit(values: any) {
-        router.post(route("clientes.store", params), values);
+        router.patch(route("clientes.update", {'cliente': cliente?.id, 'company': params}), values);
     }
 
     return (

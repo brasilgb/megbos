@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Multitenancy\Models\Tenant;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,8 +33,10 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        return redirect()->intended(route('dashboard', absolute: false));
+        if(Tenant::current() === null) {
+            return redirect()->intended(route('dashboard', absolute: false));
+        };
+        return redirect()->intended(route('tdashboard', Tenant::current()->name));
     }
 
     /**
