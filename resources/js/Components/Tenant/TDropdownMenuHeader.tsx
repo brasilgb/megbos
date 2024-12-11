@@ -21,7 +21,7 @@ const TDropdownMenuHeader = (props: Props) => {
                     <ul className='flex flex-col items-start gap-1'>
                         <li className='h-8 flex items-center justify-start gap-1 px-2  w-full'>
                             <LockKeyholeOpen className='w-4 h-4' />
-                            <span>{auth.user.name}</span>
+                            <span>{auth?.user?.name}</span>
                         </li>
                         <li className='h-8 flex px-2 hover:bg-gray-100 w-full rounded-md'>
                             <Link href={''} className='flex items-center justify-start gap-1 w-full'>

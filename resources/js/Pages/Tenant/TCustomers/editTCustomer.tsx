@@ -10,11 +10,13 @@ import { Head, Link, router, usePage } from '@inertiajs/react'
 import { ArrowLeft, Save, User2 } from 'lucide-react'
 import React from 'react'
 import { useForm } from "react-hook-form"
+import { toast } from "sonner";
 
 type Props = {}
 
 const addTCustomer = ({ cliente, errors }: any) => {
     const params = route().params.company;
+    const { flash } = usePage().props as any;
 
     const form = useForm({
         defaultValues: {
@@ -39,7 +41,15 @@ const addTCustomer = ({ cliente, errors }: any) => {
     });
 
     function onSubmit(values: any) {
-        router.patch(route("clientes.update", {'cliente': cliente?.id, 'company': params}), values);
+        router.patch(route("clientes.update", { 'cliente': cliente?.id, 'company': params }), values);
+        toast.success("Clientes", {
+            description: "Cliente editado com sucesso!",
+            classNames: {
+                title: 'text-xl',
+                description: 'text-sm',
+            },
+        })
+        
     }
 
     return (
@@ -85,7 +95,7 @@ const addTCustomer = ({ cliente, errors }: any) => {
                                         <FormItem>
                                             <FormLabel>CPF/CNPJ</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="" {...field} value={maskCpfCnpj(field.value)} maxLength={18} />
+                                                <Input placeholder="" {...field} value={maskCpfCnpj(field.value ? field.value : '')} maxLength={18} />
                                             </FormControl>
                                             <FormMessage >{errors.cpf}</FormMessage>
                                         </FormItem>
@@ -98,7 +108,7 @@ const addTCustomer = ({ cliente, errors }: any) => {
                                         <FormItem>
                                             <FormLabel>Nascimento</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="" {...field} value={maskDate(field.value)} maxLength={10} />
+                                                <Input type='date' placeholder="" {...field} />
                                             </FormControl>
                                             <FormMessage >{errors.nascimento}</FormMessage>
                                         </FormItem>

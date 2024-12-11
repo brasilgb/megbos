@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenant;
 use App\Models\Tenant\TCustomer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -126,7 +127,6 @@ class TCustomerController extends Controller
 
         $current = Route::current()->parameters();
         DB::table('tcustomers')->where('id', $request->id)->update($data);
-       
         Session::flash('success', 'Cliente editado com sucesso!');
         return Redirect::route('clientes.show', ['cliente' => $current['cliente'], 'company' => $current['company']]);
     }

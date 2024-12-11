@@ -24,7 +24,7 @@ const ModalDelete = ({ url, param, title, content }: ModalDeleteProps) => {
     const params = route().params.company;
 
     return (
-        <Dialog>
+        <Dialog >
             <DialogTrigger asChild>
                 <Button variant="destructive" size="icon"><Trash2 className="h-5 w-5" /></Button>
             </DialogTrigger>
@@ -49,11 +49,6 @@ const ModalDelete = ({ url, param, title, content }: ModalDeleteProps) => {
                         </Button>
                     </DialogClose>
                     <Button variant="destructive" asChild>
-                        {/* const { delete: destroy } = useForm();
-    const handleDelete = () => { 
-        destroy(route(url, ['mouse',1 ]));
-        destroy(route(url, [param.company , param.tcustomer ]));
-    } */}
                         <Link
                             href={route(url, param)}
                             as="button"

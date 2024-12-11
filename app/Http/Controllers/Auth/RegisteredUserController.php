@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Multitenancy\Models\Tenant;
 
 class RegisteredUserController extends Controller
 {
@@ -45,7 +46,10 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        if (Tenant::current() === null) {
+            return redirect()->intended(route('dashboard', absolute: false));
+        };
+        return redirect()->intended(route('tdashboard', Tenant::current()->name));
+        // return redirect(route('dashboard', absolute: false));
     }
 }

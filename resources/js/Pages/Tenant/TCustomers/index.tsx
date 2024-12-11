@@ -1,19 +1,33 @@
 import ModalDelete from '@/Components/Admin/AModalDelete';
 import THeaderMain from '@/Components/Tenant/THeaderMain';
 import { Badge } from '@/Components/ui/badge';
-import { BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb';
+import { BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardHeader } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import TenantLayout from '@/Layouts/TenantLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { Plus, Search, SquarePen, User2 } from 'lucide-react';
 import moment from 'moment';
 import React from 'react'
+import { toast } from 'sonner';
 
 const TCustomers = ({ customers }: any) => {
   const params = route().params.company;
+  const { flash } = usePage().props as any;
+  console.log(flash);
+
+  if (flash?.message) {
+    toast.success("Clientes", {
+      description: "Cliente cadastrado com sucesso!",
+      classNames: {
+        title: 'text-xl',
+        description: 'text-sm',
+      },
+    })
+  }
+
   return (
     <TenantLayout>
       <Head title='Clientes' />
@@ -74,14 +88,14 @@ const TCustomers = ({ customers }: any) => {
                   <TableCell className="flex items-center justify-end gap-2">
                     <Button variant='edit' size='icon' asChild>
                       <Link
-                        href={route('clientes.edit', {'cliente': customer.id, 'company': params})}
+                        href={route('clientes.edit', { 'cliente': customer.id, 'company': params })}
                       >
                         <SquarePen />
                       </Link>
                     </Button>
                     <ModalDelete
                       url="clientes.destroy"
-                      param={{'cliente': customer.id, 'company': params}}
+                      param={{ 'cliente': customer.id, 'company': params }}
                       title='Excluir Cliente'
                       content={`o cliente ${customer?.nome}`}
                     />

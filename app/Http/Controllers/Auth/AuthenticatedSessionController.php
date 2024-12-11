@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-        if(Tenant::current() === null) {
+        if (Tenant::current() === null) {
             return redirect()->intended(route('dashboard', absolute: false));
         };
         return redirect()->intended(route('tdashboard', Tenant::current()->name));
@@ -49,7 +49,10 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
-        return redirect('/');
+        if (Tenant::current() === null) {
+            return redirect()->intended(route('dashboard', absolute: false));
+        };
+        return redirect()->intended(route('tdashboard', Tenant::current()->name));
+        // return redirect('/');
     }
 }

@@ -10,6 +10,7 @@ import { Head, Link, router, usePage } from '@inertiajs/react'
 import { ArrowLeft, Save, User2 } from 'lucide-react'
 import React from 'react'
 import { useForm } from "react-hook-form"
+import { toast } from 'sonner'
 
 type Props = {}
 
@@ -17,7 +18,6 @@ const addTCustomer = ({ customer }: any) => {
     const params = route().params;
     const { errors } = usePage().props as any;
 
-    console.log(customer !== null ? customer + 1 : 1);
     const form = useForm({
         defaultValues: {
             id: customer !== null ? customer.id + 1 : 1,
@@ -101,7 +101,7 @@ const addTCustomer = ({ customer }: any) => {
                                         <FormItem>
                                             <FormLabel>Nascimento</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="" {...field} value={maskDate(field.value)} maxLength={10} />
+                                                <Input type='date' placeholder="" {...field} />
                                             </FormControl>
                                             <FormMessage >{errors.nascimento}</FormMessage>
                                         </FormItem>
