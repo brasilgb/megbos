@@ -23,6 +23,12 @@ const TMenuSide = ({ colapside }: TMenuSideProps) => {
             url: route('clientes.index', params),
             icon: Users2,
             active: route().current('clientes.*', params)
+        },
+        {
+            label: 'Ordens',
+            url: route('ordens.index', params),
+            icon: Users2,
+            active: route().current('ordens.*', params)
         }
     ];
     return (

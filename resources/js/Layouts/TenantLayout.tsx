@@ -1,9 +1,10 @@
+import Loading from '@/Components/loading';
 import TFooter from '@/Components/Tenant/TFooter';
 import THeader from '@/Components/Tenant/THeader';
 import TSidebar from '@/Components/Tenant/TSidebar';
 import { router, usePage } from '@inertiajs/react';
 import React, { ReactNode } from 'react'
-import { Toaster } from 'sonner';
+
 type TenantLayoutProps = {
   children: ReactNode;
 }
@@ -17,7 +18,7 @@ const TenantLayout = ({ children }: TenantLayoutProps) => {
 
   return (
     <>
-      {user === null && (<></>)}
+      {user === null && (<Loading />)}
       {user !== null && (
         <div className='flex items-start justify-start bg-gray-200'>
           <div className='bg-blue-primary sm:border-r sm:border-r-white shadow sm:min-h-screen'>
@@ -28,7 +29,6 @@ const TenantLayout = ({ children }: TenantLayoutProps) => {
             <main className='flex-grow sm:p-6 p-2'>
               {children}
             </main>
-            <Toaster closeButton richColors position="top-right" />
             <TFooter />
           </div>
         </div>

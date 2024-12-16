@@ -8,9 +8,7 @@ import TenantLayout from '@/Layouts/TenantLayout'
 import { maskCep, maskCpfCnpj, maskDate, maskPhone } from '@/Utils/mask'
 import { Head, Link, router, usePage } from '@inertiajs/react'
 import { ArrowLeft, Save, User2 } from 'lucide-react'
-import React from 'react'
 import { useForm } from "react-hook-form"
-import { toast } from 'sonner'
 
 type Props = {}
 

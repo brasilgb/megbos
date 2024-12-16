@@ -14,7 +14,7 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { Plus, Search, SquarePen, User2 } from 'lucide-react';
 import moment from 'moment';
 
-const TCustomers = ({ customers }: any) => {
+const TOrders = ({ customers }: any) => {
   const { data, setData, post, get, processing, errors } = useForm({
     q: "",
   });
@@ -114,4 +114,4 @@ const TCustomers = ({ customers }: any) => {
   )
 }
 
-export default TCustomers;
+export default TOrders;

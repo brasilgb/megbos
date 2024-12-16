@@ -1,4 +1,3 @@
-import FlashMessage from '@/Components/FlashMessage'
 import THeaderMain from '@/Components/Tenant/THeaderMain'
 import { BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb'
 import { Button } from '@/Components/ui/button'
@@ -13,34 +12,35 @@ import { useForm } from "react-hook-form"
 
 type Props = {}
 
-const addTCustomer = ({ cliente, errors }: any) => {
-    const params = route().params.company;
-    const { flash } = usePage().props as any;
+const addTOrder = ({ customer }: any) => {
+    const params = route().params;
+    const { errors } = usePage().props as any;
 
     const form = useForm({
         defaultValues: {
-            id: cliente?.id,
-            cpf: cliente?.cpf,
-            nascimento: cliente?.nascimento,
-            nome: cliente?.nome,
-            email: cliente?.email,
-            cep: cliente?.cep,
-            uf: cliente?.uf,
-            cidade: cliente?.cidade,
-            bairro: cliente?.bairro,
-            logradouro: cliente?.logradouro,
-            numero: cliente?.numero,
-            complemento: cliente?.complemento,
-            telefone: cliente?.telefone,
-            whatsapp: cliente?.whatsapp,
-            contato: cliente?.contato,
-            telcontato: cliente?.telcontato,
-            obs: cliente?.obs,
+            id: customer !== null ? customer.id + 1 : 1,
+            cpf: "",
+            nascimento: "",
+            nome: "",
+            email: "",
+            cep: "",
+            uf: "",
+            cidade: "",
+            bairro: "",
+            logradouro: "",
+            numero: "",
+            complemento: "",
+            telefone: "",
+            whatsapp: "",
+            contato: "",
+            telcontato: "",
+            obs: "",
         }
     });
 
+
     function onSubmit(values: any) {
-        router.patch(route("clientes.update", { 'cliente': cliente?.id, 'company': params }), values);
+        router.post(route("clientes.store", params), values);
     }
 
     return (
@@ -75,10 +75,9 @@ const addTCustomer = ({ cliente, errors }: any) => {
                     </CardContent>
                     <CardContent></CardContent>
                 </CardHeader>
-                {flash?.message && <FlashMessage message={flash?.message} />}
                 <CardContent>
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-4" autoComplete='off'>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" autoComplete='off'>
                             <div className='grid sm:grid-cols-6 sm:gap-4'>
                                 <FormField
                                     control={form.control}
@@ -87,7 +86,7 @@ const addTCustomer = ({ cliente, errors }: any) => {
                                         <FormItem>
                                             <FormLabel>CPF/CNPJ</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="" {...field} value={maskCpfCnpj(field.value ? field.value : '')} maxLength={18} />
+                                                <Input placeholder="" {...field} value={maskCpfCnpj(field.value)} maxLength={18} />
                                             </FormControl>
                                             <FormMessage >{errors.cpf}</FormMessage>
                                         </FormItem>
@@ -299,4 +298,4 @@ const addTCustomer = ({ cliente, errors }: any) => {
     )
 }
 
-export default addTCustomer
+export default addTOrder
