@@ -26,7 +26,7 @@ class TOrder extends Model
         'custo',
         'status',
         'tecnico',
-        'detalhes',
+        'servico',
         'dtentrega',
         'obs'
     ];

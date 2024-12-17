@@ -7,57 +7,54 @@ import { Input } from '@/Components/ui/input'
 import TenantLayout from '@/Layouts/TenantLayout'
 import { maskCep, maskCpfCnpj, maskDate, maskPhone } from '@/Utils/mask'
 import { Head, Link, router, usePage } from '@inertiajs/react'
-import { ArrowLeft, Save, User2 } from 'lucide-react'
+import { ArrowLeft, Save, User2, Wrench } from 'lucide-react'
 import { useForm } from "react-hook-form"
 
 type Props = {}
 
-const addTOrder = ({ customer }: any) => {
+const addTOrder = ({ order }: any) => {
     const params = route().params;
     const { errors } = usePage().props as any;
 
     const form = useForm({
         defaultValues: {
-            id: customer !== null ? customer.id + 1 : 1,
-            cpf: "",
-            nascimento: "",
-            nome: "",
-            email: "",
-            cep: "",
-            uf: "",
-            cidade: "",
-            bairro: "",
-            logradouro: "",
-            numero: "",
-            complemento: "",
-            telefone: "",
-            whatsapp: "",
-            contato: "",
-            telcontato: "",
+            id: order !== null ? order.id + 1 : 1,
+            cliente_id: "",
+            cliente: "",
+            equipamento: "",
+            modelo: "",
+            senha: "",
+            defeito: "",
+            estado: "",
+            acessorios: "",
+            descorcamento: "",
+            valorcamento: "0",
+            status: false,
+            previsao: "",
             obs: "",
         }
     });
 
 
     function onSubmit(values: any) {
-        router.post(route("clientes.store", params), values);
+        router.post(route("ordens.store", params), values);
     }
 
     return (
         <TenantLayout>
-            <Head title='Adiciona Cliente' />
-            <THeaderMain icon={User2} title="Clientes">
+            <Head title='Adiciona Ordem' />
+            <THeaderMain icon={Wrench} title="Ordens">
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <Link href={route('tdashboard', params)}>Home</Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <Link href={route('clientes.index', params)}>Clientes</Link>
+                        <Link href={route('ordens.index', params)}>Ordens</Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+                        <BreadcrumbPage>Cadastrar Ordem</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </THeaderMain>
@@ -67,7 +64,7 @@ const addTOrder = ({ customer }: any) => {
                         <div className='bg-blue-600 hover:bg-blue-600/80 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-md'>
                             <Link
                                 className=' '
-                                href={route('clientes.index', params)}
+                                href={route('ordens.index', params)}
                             >
                                 <ArrowLeft className='w-6 h-6' />
                             </Link>
@@ -81,14 +78,14 @@ const addTOrder = ({ customer }: any) => {
                             <div className='grid sm:grid-cols-6 sm:gap-4'>
                                 <FormField
                                     control={form.control}
-                                    name="cpf"
+                                    name="id"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>CPF/CNPJ</FormLabel>
+                                            <FormLabel>N° Ordem</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="" {...field} value={maskCpfCnpj(field.value)} maxLength={18} />
                                             </FormControl>
-                                            <FormMessage >{errors.cpf}</FormMessage>
+                                            <FormMessage >{errors.id}</FormMessage>
                                         </FormItem>
                                     )}
                                 />

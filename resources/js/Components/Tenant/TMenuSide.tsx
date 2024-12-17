@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Home, Users2 } from 'lucide-react';
+import { Home, Users2, Wrench } from 'lucide-react';
 import React from 'react'
 import { useRoute } from '../../../../vendor/tightenco/ziggy/src/js';
 
@@ -27,7 +27,7 @@ const TMenuSide = ({ colapside }: TMenuSideProps) => {
         {
             label: 'Ordens',
             url: route('ordens.index', params),
-            icon: Users2,
+            icon: Wrench,
             active: route().current('ordens.*', params)
         }
     ];

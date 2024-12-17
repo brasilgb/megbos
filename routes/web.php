@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Tenant\TCustomerController;
 use App\Http\Controllers\Tenant\THomeController;
+use App\Http\Controllers\Tenant\TOrderController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,7 +18,7 @@ use Inertia\Inertia;
 Route::middleware('tenant')->domain('{company}.megbos.test')->group(function () {
     Route::get('/', [THomeController::class, 'index'])->name('tdashboard');
     Route::resource('/clientes', TCustomerController::class);
-    Route::resource('/ordens', TCustomerController::class);
+    Route::resource('/ordens', TOrderController::class);
 });
 
 Route::domain('megbos.test')->group(function () {

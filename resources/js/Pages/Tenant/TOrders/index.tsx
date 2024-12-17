@@ -11,39 +11,34 @@ import { Input } from '@/Components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import TenantLayout from '@/Layouts/TenantLayout';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { Plus, Search, SquarePen, User2 } from 'lucide-react';
+import { Plus, Search, SquarePen, User2, Wrench } from 'lucide-react';
 import moment from 'moment';
 
-const TOrders = ({ customers }: any) => {
+const TOrders = ({ orders }: any) => {
   const { data, setData, post, get, processing, errors } = useForm({
     q: "",
   });
   const params = route().params.company;
   const { flash } = usePage().props as any;
 
-  const handleSearch = (e: any) => {
-    e.preventDefault();
-    get(route('clientes.index', params))
-  }
-
   return (
     <TenantLayout>
-      <Head title='Clientes' />
-      <THeaderMain icon={User2} title="Clientes" >
+      <Head title='Ordens' />
+      <THeaderMain icon={Wrench} title="Ordens" >
         <BreadcrumbList>
           <BreadcrumbItem>
             <Link href={route('tdashboard', params)}>Home</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Clientes</BreadcrumbPage>
+            <BreadcrumbPage>Ordens</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </THeaderMain>
       <Card className='sm:p-4 p-2'>
         <CardHeader className='flex flex-row items-center justify-between px-0 py-0 pb-2 border-b'>
           <CardContent className='p-0 w-1/2'>
-            <InputSearch placeholder={''} url={route('clientes.index', params)} />
+            <InputSearch placeholder={''} url={route('ordens.index', params)} />
           </CardContent>
           <CardContent className='p-0'>
             <Button
@@ -52,7 +47,7 @@ const TOrders = ({ customers }: any) => {
               size="icon"
             >
               <Link
-                href={route('clientes.create', params)}
+                href={route('ordens.create', params)}
               >
                 <Plus />
               </Link>
@@ -65,9 +60,8 @@ const TOrders = ({ customers }: any) => {
             <Table className=' w-full mt-4'>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[40px]">#ID</TableHead>
+                  <TableHead className="w-[40px]">#Ordem</TableHead>
                   <TableHead className="w-[190px]">Nome do cliente</TableHead>
-                  <TableHead>E-mail</TableHead>
                   <TableHead>CPF</TableHead>
                   <TableHead>Telefone</TableHead>
                   <TableHead>Cadastro</TableHead>
@@ -75,27 +69,26 @@ const TOrders = ({ customers }: any) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {customers.data?.map((customer: any) => (
+                {orders.data?.map((order: any) => (
                   <TableRow>
-                    <TableCell className="font-medium">{customer?.id}</TableCell>
-                    <TableCell className="font-medium">{customer?.nome}</TableCell>
-                    <TableCell className="font-medium">{customer?.email}</TableCell>
-                    <TableCell className="font-medium">{customer?.cpf}</TableCell>
-                    <TableCell className="font-medium">{customer?.telefone}</TableCell>
-                    <TableCell>{moment(customer?.created_at).format("DD/MM/YYYY")}</TableCell>
+                    <TableCell className="font-medium">{order?.id}</TableCell>
+                    <TableCell className="font-medium">{order.cliente.nome}</TableCell>
+                    <TableCell className="font-medium">{order?.cpf}</TableCell>
+                    <TableCell className="font-medium">{order?.telefone}</TableCell>
+                    <TableCell>{moment(order?.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className="flex items-center justify-end gap-2">
                       <Button variant='edit' size='icon' asChild>
                         <Link
-                          href={route('clientes.edit', { 'cliente': customer.id, 'company': params })}
+                          href={route('ordens.edit', { 'orden': order.id, 'company': params })}
                         >
                           <SquarePen />
                         </Link>
                       </Button>
                       <ModalDelete
-                        url="clientes.destroy"
-                        param={{ 'cliente': customer.id, 'company': params }}
+                        url="ordens.destroy"
+                        param={{ 'orden': order.id, 'company': params }}
                         title='Excluir Cliente'
-                        content={`o cliente ${customer?.nome}`}
+                        content={`o ordem do cliente ${order?.cliente.nome}`}
                       />
                     </TableCell>
                   </TableRow>
@@ -104,9 +97,9 @@ const TOrders = ({ customers }: any) => {
             </Table>
           </div>
         </CardContent>
-        {customers.total > customers.per_page &&
+        {orders.total > orders.per_page &&
           <CardFooter>
-            <Pagination data={customers} />
+            <Pagination data={orders} />
           </CardFooter>
         }
       </Card>

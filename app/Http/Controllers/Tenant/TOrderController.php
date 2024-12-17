@@ -5,15 +5,32 @@ namespace App\Http\Controllers\Tenant;
 use App\Models\Tenant\TOrder;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->get('q');
+        $oc = $request->get('oc');
+
+        $query = TOrder::with('cliente')->orderBy('id', 'DESC');
+
+        if ($search) {
+            $query->where('id', 'like', '%' . $search . '%');
+        }
+
+        if ($oc) {
+            $query->where('cliente_id', $oc);
+        }
+
+        $orders = $query->paginate(12)->withQueryString();
+        // $whats = Whats::orderBy('id', 'DESC')->first();
+        // $printers = Impressao::orderBy('id', 'DESC')->first();
+        return Inertia::render('Tenant/TOrders/index', ["orders" => $orders]);
     }
 
     /**
@@ -21,7 +38,8 @@ class TOrderController extends Controller
      */
     public function create()
     {
-        //
+        $torder = TOrder::latest('id')->first();
+        return Inertia::render('Tenant/TOrders/addTOrder', ['order' => $torder]);
     }
 
     /**

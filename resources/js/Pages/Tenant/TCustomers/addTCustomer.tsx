@@ -57,7 +57,7 @@ const addTCustomer = ({ customer }: any) => {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+                        <BreadcrumbPage>Cadastrar Cliente</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </THeaderMain>

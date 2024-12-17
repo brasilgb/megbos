@@ -21,11 +21,6 @@ const TCustomers = ({ customers }: any) => {
   const params = route().params.company;
   const { flash } = usePage().props as any;
 
-  const handleSearch = (e: any) => {
-    e.preventDefault();
-    get(route('clientes.index', params))
-  }
-
   return (
     <TenantLayout>
       <Head title='Clientes' />

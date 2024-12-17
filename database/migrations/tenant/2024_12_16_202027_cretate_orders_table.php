@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('torders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cliente_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('cliente_id')->nullable()->constrained('tcustomers')->onDelete('cascade');
             $table->string('equipamento', 100);
             $table->string('modelo', 50)->nullable();
             $table->string('senha', 50)->nullable();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('acessorios')->nullable();
             $table->text('descorcamento')->nullable();
             $table->decimal('valorcamento', 10,2)->nullable();
-            $table->text('detalhes')->nullable(); // servicos executados
+            $table->text('servico')->nullable(); // servicos prestados
             $table->text('pecas')->nullable();
             $table->decimal('valpecas', 10, 2)->nullable();
             $table->decimal('valservico', 10, 2)->nullable();
