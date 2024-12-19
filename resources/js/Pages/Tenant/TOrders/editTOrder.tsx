@@ -1,54 +1,60 @@
 import THeaderMain from '@/Components/Tenant/THeaderMain'
-import { BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb'
+import { BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb'
 import { Button } from '@/Components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/Components/ui/command'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/Components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/ui/form'
 import { Input } from '@/Components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/Components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select'
 import { Textarea } from '@/Components/ui/textarea'
 import TenantLayout from '@/Layouts/TenantLayout'
 import { cn } from '@/lib/utils'
-import { maskCep, maskCpfCnpj, maskDate, maskPhone } from '@/Utils/mask'
 import { Head, Link, router, usePage } from '@inertiajs/react'
-import { ArrowLeft, Check, ChevronsUpDown, Save, User2, Wrench } from 'lucide-react'
+import { ArrowLeft, Check, ChevronsUpDown, Save, Wrench } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from "react-hook-form"
 
 type Props = {}
 
-const addTOrder = ({ order, customers }: any) => {
-    const params = route().params;
+const editTOrder = ({ order, customers }: any) => {
+    const params = route().params.company;
     const { errors } = usePage().props as any;
-    const clientes = customers.map((customer:any) => ({label: customer.nome, value: customer.id}));
+    const clientes = customers.map((customer: any) => ({ label: customer.nome, value: customer.id }));
     const [open, setOpen] = useState<boolean>(false)
 
     const form = useForm({
         defaultValues: {
-            id: order !== null ? order.id + 1 : 1,
-            cliente_id: "",
-            equipamento: "",
-            modelo: "",
-            senha: "",
-            defeito: "",
-            estado: "", 
-            acessorios: "",
-            descorcamento: "",
+            id: order.id,
+            cliente_id: order.cliente_id,
+            equipamento: order.equipamento,
+            modelo: order.modelo,
+            senha: order.senha,
+            defeito: order.defeito,
+            estado: order.estado,
+            acessorios: order.acessorios,
+            previsao: order.previsao,
+            descorcamento: order.descorcamento,
             valorcamento: "0",
-            status: "",
-            previsao: "",
-            obs: "",
+            pecas: order.pecas,
+            valpecas: order.valpecas,
+            valservico: order.valservico,
+            custo: order.custo,
+            status: order.status,
+            tecnico: order.tecnico,
+            servico: order.servico,
+            dtentrega: order.dtentrega,
+            obs: order.obs,
         }
     });
 
     function onSubmit(values: any) {
-        router.post(route("ordens.store", params), values);
+        router.patch(route("ordens.update", { 'ordem': order?.id, 'company': params }), values);
     }
 
     return (
         <TenantLayout>
-            <Head title='Cadastrar Ordem de serviço' />
+            <Head title='Alterar Ordem de serviço' />
             <THeaderMain icon={Wrench} title="Ordens">
                 <BreadcrumbList>
                     <BreadcrumbItem>
@@ -60,7 +66,7 @@ const addTOrder = ({ order, customers }: any) => {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>Cadastrar Ordem</BreadcrumbPage>
+                        <BreadcrumbPage>Alterar Ordem</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </THeaderMain>
@@ -115,7 +121,7 @@ const addTOrder = ({ order, customers }: any) => {
                                                             >
                                                                 {field.value
                                                                     ? clientes.find(
-                                                                        (cliente:any) => cliente.value === field.value
+                                                                        (cliente: any) => cliente.value === field.value
                                                                     )?.label
                                                                     : "Selecione o cliente"}
                                                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -128,7 +134,7 @@ const addTOrder = ({ order, customers }: any) => {
                                                             <CommandList>
                                                                 <CommandEmpty>Cliente não encontrado.</CommandEmpty>
                                                                 <CommandGroup>
-                                                                    {clientes.map((cliente:any) => (
+                                                                    {clientes.map((cliente: any) => (
                                                                         <CommandItem
                                                                             value={cliente.label}
                                                                             key={cliente.value}
@@ -344,4 +350,4 @@ const addTOrder = ({ order, customers }: any) => {
     )
 }
 
-export default addTOrder
+export default editTOrder

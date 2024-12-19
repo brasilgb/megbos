@@ -122,10 +122,10 @@ class ACustomerController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'domain' => ['required', Rule::unique('tenants')->ignore($customer->id)],
-                'database' => ['required', Rule::unique('tenants')->ignore($customer->id)],
+                'domain' => ['required', Rule::unique('tenants')->ignore($customer->id, 'id')],
+                'database' => ['required', Rule::unique('tenants')->ignore($customer->id, 'id')],
                 'customer' => 'required',
-                'cpfcnpj' => ['required', Rule::unique('tenants')->ignore($customer->id), 'cpf_ou_cnpj'],
+                'cpfcnpj' => ['required', Rule::unique('tenants')->ignore($customer->id, 'id'), 'cpf_ou_cnpj'],
                 'cep' => 'required',
                 'state' => 'required',
                 'city' => 'required',

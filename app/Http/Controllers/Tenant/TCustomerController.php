@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Tenant;
 use App\Models\Tenant\TCustomer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -59,8 +59,8 @@ class TCustomerController extends Controller
         $request->validate(
             [
                 'nome' => 'required',
-                // 'cpf' => 'required|cpf_ou_cnpj|unique:tcustomers',
-                'email' => 'nullable|email|unique:tcustomers',
+                'cpf' => 'required|cpf_ou_cnpj|unique:tcustomers',
+                'email' => 'required|email|unique:tcustomers',
                 'telefone' => 'required'
             ],
             $messages,
@@ -114,7 +114,7 @@ class TCustomerController extends Controller
             [
                 'nome' => 'required',
                 'cpf' => 'nullable|cpf_ou_cnpj|unique:tcustomers,cpf,' . $request->id,
-                'email' => 'nullable|email|unique:tcustomers,' . $request->id,
+                'email' => ['required','email', Rule::unique('tcustomers')->ignore($request->id,'id')],
                 'telefone' => 'required'
             ],
             $messages,

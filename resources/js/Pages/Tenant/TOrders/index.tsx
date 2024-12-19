@@ -79,16 +79,16 @@ const TOrders = ({ orders }: any) => {
                     <TableCell className="flex items-center justify-end gap-2">
                       <Button variant='edit' size='icon' asChild>
                         <Link
-                          href={route('ordens.edit', { 'orden': order.id, 'company': params })}
+                          href={route('ordens.edit', { 'ordem': order.id, 'company': params })}
                         >
                           <SquarePen />
                         </Link>
                       </Button>
                       <ModalDelete
                         url="ordens.destroy"
-                        param={{ 'orden': order.id, 'company': params }}
-                        title='Excluir Cliente'
-                        content={`o ordem do cliente ${order?.cliente.nome}`}
+                        param={{ 'ordem': order.id, 'company': params }}
+                        title='Excluir Ordem'
+                        content={`a ordem do cliente ${order?.cliente.nome}`}
                       />
                     </TableCell>
                   </TableRow>

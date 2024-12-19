@@ -18,7 +18,7 @@ use Inertia\Inertia;
 Route::middleware('tenant')->domain('{company}.megbos.test')->group(function () {
     Route::get('/', [THomeController::class, 'index'])->name('tdashboard');
     Route::resource('/clientes', TCustomerController::class);
-    Route::resource('/ordens', TOrderController::class);
+    Route::resource('/ordens', TOrderController::class)->parameters(['ordens' => 'ordem']);
 });
 
 Route::domain('megbos.test')->group(function () {

@@ -30,4 +30,10 @@ class TOrder extends Model
         'dtentrega',
         'obs'
     ];
+    
+    public function cliente()
+    {
+        return $this->belongsTo(TCustomer::class);
+    }
+
 }
