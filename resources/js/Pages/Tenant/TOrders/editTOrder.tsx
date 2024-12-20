@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/Components/ui/textarea'
 import TenantLayout from '@/Layouts/TenantLayout'
 import { cn } from '@/lib/utils'
+import { parseValueMoney } from '@/Utils/mask'
 import { Head, Link, router, usePage } from '@inertiajs/react'
 import { ArrowLeft, Check, ChevronsUpDown, Save, Wrench } from 'lucide-react'
 import { useState } from 'react'
@@ -275,7 +276,7 @@ const editTOrder = ({ order, customers }: any) => {
                                     name="descorcamento"
                                     render={({ field }) => (
                                         <FormItem className='sm:col-span-2'>
-                                            <FormLabel>Descrição do pré-orçamento</FormLabel>
+                                            <FormLabel>Descrição do orçamento</FormLabel>
                                             <FormControl>
                                                 <Textarea placeholder="" {...field} />
                                             </FormControl>
@@ -290,7 +291,7 @@ const editTOrder = ({ order, customers }: any) => {
                                         <FormItem>
                                             <FormLabel>Valor orçamento</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="" {...field} />
+                                                <Input placeholder="" {...field} value={parseValueMoney(field.value)} />
                                             </FormControl>
                                             <FormMessage >{errors.valorcamento}</FormMessage>
                                         </FormItem>
