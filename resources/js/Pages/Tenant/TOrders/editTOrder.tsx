@@ -3,13 +3,16 @@ import { BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } f
 import { Button } from '@/Components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/Components/ui/command'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/Components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/ui/form'
 import { Input } from '@/Components/ui/input'
+import { Label } from '@/Components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/Components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select'
 import { Textarea } from '@/Components/ui/textarea'
 import TenantLayout from '@/Layouts/TenantLayout'
 import { cn } from '@/lib/utils'
+import { statusServico } from '@/Utils/dataSelect'
 import { parseValueMoney } from '@/Utils/mask'
 import { Head, Link, router, usePage } from '@inertiajs/react'
 import { ArrowLeft, Check, ChevronsUpDown, Save, Wrench } from 'lucide-react'
@@ -18,10 +21,11 @@ import { useForm } from "react-hook-form"
 
 type Props = {}
 
-const editTOrder = ({ order, customers }: any) => {
+const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
     const params = route().params.company;
     const { errors } = usePage().props as any;
     const clientes = customers.map((customer: any) => ({ label: customer.nome, value: customer.id }));
+    const pecas = parts.map((part: any) => ({ label: part.nome, value: part.id }));
     const [open, setOpen] = useState<boolean>(false)
 
     const form = useForm({
@@ -42,7 +46,7 @@ const editTOrder = ({ order, customers }: any) => {
             valservico: order.valservico,
             custo: order.custo,
             status: order.status,
-            tecnico: order.tecnico,
+            tecnico: order.tecnico ? order.tecnico : '',
             servico: order.servico,
             dtentrega: order.dtentrega,
             obs: order.obs,
@@ -53,6 +57,98 @@ const editTOrder = ({ order, customers }: any) => {
         router.patch(route("ordens.update", { 'ordem': order?.id, 'company': params }), values);
     }
 
+    const AddPartsToOrder = () => {
+        return (
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button variant="add" size="icon">+</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Selecionar peças</DialogTitle>
+                        <DialogDescription>
+                            Adicionar peças e/ou produtos a ordem de serviço.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="flex flex-col gap-2 items-start relative">
+                            <FormField
+                                control={form.control}
+                                name="pecas"
+                                render={({ field }) => (
+                                    <FormItem className='sm:col-span-2'>
+                                        <FormLabel>Selecionar</FormLabel>
+                                        <FormControl>
+                                            <Popover open={open} onOpenChange={setOpen}>
+                                                <PopoverTrigger asChild>
+                                                    <FormControl>
+                                                        <Button
+                                                            variant="outline"
+                                                            role="combobox"
+                                                            className={cn(
+                                                                "w-full justify-between",
+                                                                !field.value && "text-muted-foreground"
+                                                            )}
+                                                        >
+                                                            {field.value
+                                                                ? pecas.find(
+                                                                    (peca: any) => peca.value === field.value
+                                                                )?.label
+                                                                : "Selecione o peça"}
+                                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                        </Button>
+                                                    </FormControl>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                                                    <Command>
+                                                        <CommandInput placeholder="Localize cliente..." />
+                                                        <CommandList>
+                                                            <CommandEmpty>Cliente não encontrado.</CommandEmpty>
+                                                            <CommandGroup>
+                                                                {pecas.map((peca: any) => (
+                                                                    <CommandItem
+                                                                        value={peca.label}
+                                                                        key={peca.value}
+                                                                        onSelect={() => {
+                                                                            form.setValue("pecas", peca.value)
+                                                                            setOpen(false)
+                                                                        }}
+                                                                    >
+                                                                        {peca.label}
+                                                                        <Check
+                                                                            className={cn(
+                                                                                "ml-auto",
+                                                                                peca.value === field.value
+                                                                                    ? "opacity-100"
+                                                                                    : "opacity-0"
+                                                                            )}
+                                                                        />
+                                                                    </CommandItem>
+                                                                ))}
+                                                            </CommandGroup>
+                                                        </CommandList>
+                                                    </Command>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button type="submit" className='flex gap-2'>
+                            <Save />
+                            <span>Inserir peças</span>
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+        )
+    }
     return (
         <TenantLayout>
             <Head title='Alterar Ordem de serviço' />
@@ -171,18 +267,18 @@ const editTOrder = ({ order, customers }: any) => {
                                     render={({ field }) => (
                                         <FormItem className="sm:col-span-2">
                                             <FormLabel>Tipo de Equipamento</FormLabel>
-                                            <FormControl>
-                                                <Select {...field} onValueChange={field.onChange} value={field.value}>
+                                            <Select {...field} onValueChange={field.onChange} value={field.value}>
+                                                <FormControl>
                                                     <SelectTrigger className="w-full">
                                                         <SelectValue placeholder="Selecione o equipamento" />
                                                     </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem value="mobile">Mobile</SelectItem>
-                                                        <SelectItem value="notebook">Notebook</SelectItem>
-                                                        <SelectItem value="pc">PC</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                            </FormControl>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value="mobile">Mobile</SelectItem>
+                                                    <SelectItem value="notebook">Notebook</SelectItem>
+                                                    <SelectItem value="pc">PC</SelectItem>
+                                                </SelectContent>
+                                            </Select>
                                             <FormMessage >{errors.equipamento}</FormMessage>
                                         </FormItem>
                                     )}
@@ -270,7 +366,7 @@ const editTOrder = ({ order, customers }: any) => {
                                     )}
                                 />
                             </div>
-                            <div className='grid sm:grid-cols-4 sm:gap-4 mt-6'>
+                            <div className='grid sm:grid-cols-3 sm:gap-4 mt-6 bg-gray-100 p-2 rounded-md'>
                                 <FormField
                                     control={form.control}
                                     name="descorcamento"
@@ -297,29 +393,140 @@ const editTOrder = ({ order, customers }: any) => {
                                         </FormItem>
                                     )}
                                 />
+                            </div>
+                            <div className='sm:grid grid-cols-7 gap-4 mt-6'>
+                                <FormField
+                                    control={form.control}
+                                    name="pecas"
+                                    render={({ field }) => (
+                                        <FormItem className='sm:col-span-2'>
+                                            <FormLabel>Descrição Peças/Produtos (manual)</FormLabel>
+                                            <FormControl>
+                                                <Textarea placeholder="" {...field} />
+                                            </FormControl>
+                                            <FormMessage >{errors.pecas}</FormMessage>
+                                        </FormItem>
+                                    )}
+                                />
+                                <div className='sm:col-span-2 pb-7 h-full'>
+                                    <div className='text-sm font-medium h-8'>Adicionar peças do estoque</div>
+                                    <div className=' bg-gray-50 h-full flex rounded-md border'>
+                                        <div className='flex-1'>
+
+                                        </div>
+                                        <div className='flex flex-col justify-center gap-4 bg-gray-100 px-2 rounded-r-md border-l'>
+                                            <AddPartsToOrder />
+                                            <Button asChild variant="destructive" size="icon">
+                                                <Link
+                                                    href='#'
+                                                >
+                                                    -
+                                                </Link>
+                                            </Button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <FormField
+                                    control={form.control}
+                                    name="valpecas"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Valor em peças</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="" {...field} />
+                                            </FormControl>
+                                            <FormMessage >{errors.valpecas}</FormMessage>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="valservico"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Valor do serviço</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="" {...field} />
+                                            </FormControl>
+                                            <FormMessage >{errors.valservico}</FormMessage>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="custo"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Valor total</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="" {...field} />
+                                            </FormControl>
+                                            <FormMessage >{errors.custo}</FormMessage>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className='sm:grid grid-cols-2 gap-4 mt-6'>
+                                <FormField
+                                    control={form.control}
+                                    name="tecnico"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Técnico</FormLabel>
+                                            <Select {...field} onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger className="w-full">
+                                                        <SelectValue placeholder="Selecione o técnico" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {tecnicos?.map((tec: any, idx: number) => (
+                                                        <SelectItem key={idx} value={tec.id}>{tec.name}</SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage >{errors.tecnico}</FormMessage>
+                                        </FormItem>
+                                    )}
+                                />
                                 <FormField
                                     control={form.control}
                                     name="status"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Status do orçamento</FormLabel>
-                                            <FormControl>
-                                                <Select {...field} onValueChange={field.onChange} value={field.value}>
+                                            <FormLabel>Status do serviço</FormLabel>
+                                            <Select {...field} onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
                                                     <SelectTrigger className="w-full">
                                                         <SelectValue placeholder="Selecione o status" />
                                                     </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem value="3">Orçamento Gerado</SelectItem>
-                                                        <SelectItem value="4">Orçamento Aprovado</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                            </FormControl>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {statusServico?.map((status: any, idx: number) => (
+                                                        <SelectItem key={idx} value={status?.value}>{status?.label}</SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
                                             <FormMessage >{errors.status}</FormMessage>
                                         </FormItem>
                                     )}
                                 />
                             </div>
-                            <div className='mt-6'>
+                            <div className='sm:grid grid-cols-2 gap-4 mt-6'>
+                                <FormField
+                                    control={form.control}
+                                    name="servico"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Detalhes do serviço</FormLabel>
+                                            <FormControl>
+                                                <Textarea placeholder="" {...field} />
+                                            </FormControl>
+                                            <FormMessage >{errors.servico}</FormMessage>
+                                        </FormItem>
+                                    )}
+                                />
                                 <FormField
                                     control={form.control}
                                     name="obs"

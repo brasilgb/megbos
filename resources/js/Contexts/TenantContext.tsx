@@ -8,10 +8,14 @@ type TenantProviderType = {
 const TenantContext = createContext({} as any);
 
 export const TenantProvider = ({ children }: TenantProviderType) => {
-const [ testeContext, setTesteContext] = useState<string>('Teste de context');
+    const [colapseSideBar, setColapseSideBar] = useState<boolean>(true);
+    const [colapseMobile, setColapseMobile] = useState<boolean>(false);
     return (
         <TenantContext.Provider value={{
-            testeContext
+            colapseSideBar,
+            setColapseSideBar,
+            colapseMobile,
+            setColapseMobile
         }}>
             {children}
         </TenantContext.Provider>

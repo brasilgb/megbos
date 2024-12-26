@@ -2,6 +2,7 @@ import Loading from '@/Components/loading';
 import TFooter from '@/Components/Tenant/TFooter';
 import THeader from '@/Components/Tenant/THeader';
 import TSidebar from '@/Components/Tenant/TSidebar';
+import { useTenantContext } from '@/Contexts/TenantContext';
 import { router, usePage } from '@inertiajs/react';
 import React, { ReactNode } from 'react'
 
@@ -11,6 +12,7 @@ type TenantLayoutProps = {
 
 const TenantLayout = ({ children }: TenantLayoutProps) => {
   const { user } = usePage().props.auth;
+  const { colapseSideBar } = useTenantContext();
 
   if (user === null) {
     router.get('/');
@@ -20,13 +22,11 @@ const TenantLayout = ({ children }: TenantLayoutProps) => {
     <>
       {user === null && (<Loading />)}
       {user !== null && (
-        <div className='flex items-start justify-start bg-gray-200'>
-          <div className='bg-blue-primary sm:border-r sm:border-r-white shadow sm:min-h-screen'>
-            <TSidebar />
-          </div>
-          <div className='bg-gray-100 flex flex-col min-h-screen flex-1'>
+        <div className='flex items-start'>
+          <TSidebar />
+          <div className={`bg-gray-100 justify-start flex flex-col sm:min-h-screen w-full`}>
             <THeader />
-            <main className='flex-grow sm:p-6 p-2'>
+            <main className={`${colapseSideBar ? 'md:ml-[16rem]' : 'md:ml-16 ml-0'} sm:p-6 p-2 flex-grow duration-300`}>
               {children}
             </main>
             <TFooter />

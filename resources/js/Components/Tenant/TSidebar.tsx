@@ -2,16 +2,21 @@ import { ChevronRight, Menu, X } from 'lucide-react'
 import React, { useState } from 'react'
 import TMenuSide from './TMenuSide';
 import TSideTop from './TSideTop';
+import { useTenantContext } from '@/Contexts/TenantContext';
 
 type Props = {}
 
 const TSidebar = (props: Props) => {
-  const [colapseSideBar, setColapseSideBar] = useState<boolean>(true);
-  const [colapseMobile, setColapseMobile] = useState<boolean>(false);
+  const {
+    colapseSideBar,
+    setColapseSideBar,
+    colapseMobile,
+    setColapseMobile
+  } = useTenantContext();
 
   return (
     <>
-      <aside className={`${colapseSideBar ? 'md:w-[16rem]' : 'md:w-14 w-0'} transition-all duration-300 relative md:p-2`}>
+      <aside className={`${colapseSideBar ? 'md:w-[16rem]' : 'md:w-14 w-0'} transition-all duration-300 md:p-2 bg-blue-primary h-full fixed`}>
         <div
           onClick={() => setColapseSideBar(!colapseSideBar)}
           className='h-6 w-6 bg-gray-50 border-2 border-blue-primary shadow rounded-full sm:flex hidden items-center justify-center absolute -right-3 top-3 cursor-pointer z-10'>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Tenant;
 use App\Models\Tenant\TOrder;
 use App\Http\Controllers\Controller;
 use App\Models\Tenant\TCustomer;
+use App\Models\Tenant\TPart;
+use App\Models\Tenant\TUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -86,7 +88,9 @@ class TOrderController extends Controller
         $current = Route::current()->parameters();
         $torder = TOrder::where('id', $current['ordem'])->first();
         $tcustomers = TCustomer::get();
-        return Inertia::render('Tenant/TOrders/editTOrder', ['order' => $torder, 'customers' => $tcustomers]);
+        $tecnicos = TUser::get();
+        $parts = TPart::get();
+        return Inertia::render('Tenant/TOrders/editTOrder', ['order' => $torder, 'customers' => $tcustomers, 'tecnicos' => $tecnicos, 'parts' => $parts]);
     }
 
     /**
