@@ -10,13 +10,14 @@ import { Label } from '@/Components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/Components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select'
 import { Textarea } from '@/Components/ui/textarea'
+import { useTenantContext } from '@/Contexts/TenantContext'
 import TenantLayout from '@/Layouts/TenantLayout'
 import { cn } from '@/lib/utils'
 import { statusServico } from '@/Utils/dataSelect'
 import { parseValueMoney } from '@/Utils/mask'
-import { Head, Link, router, usePage } from '@inertiajs/react'
-import { ArrowLeft, Check, ChevronsUpDown, Save, Wrench } from 'lucide-react'
-import { useState } from 'react'
+import { Head, Link, router, usePage, useForm as useForm2 } from '@inertiajs/react'
+import { ArrowLeft, Check, ChevronsUpDown, Save, Trash, Wrench } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
 
 type Props = {}
@@ -25,9 +26,10 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
     const params = route().params.company;
     const { errors } = usePage().props as any;
     const clientes = customers.map((customer: any) => ({ label: customer.nome, value: customer.id }));
-    const pecas = parts.map((part: any) => ({ label: part.nome, value: part.id }));
+    // const pecas = parts.map((part: any) => ({ label: part.nome, value: part.id }));
+    const {sendOrderParts, setSendOrderParts} = useTenantContext();
     const [open, setOpen] = useState<boolean>(false)
-
+    const [openParts, setOpenParts] = useState<boolean>(false)
     const form = useForm({
         defaultValues: {
             id: order.id,
@@ -50,101 +52,124 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
             servico: order.servico,
             dtentrega: order.dtentrega,
             obs: order.obs,
+            produtos: sendOrderParts,
         }
     });
 
+    useEffect(() => {
+        form.setValue('produtos', sendOrderParts.map((produto: any) => (produto.id)))
+    }, [form, sendOrderParts])
+    
     function onSubmit(values: any) {
-        router.patch(route("ordens.update", { 'ordem': order?.id, 'company': params }), values);
+        const sendOrder = sendOrderParts.map((produto: any) => (produto.id));
+        form.setValue('produtos', sendOrder)
+        router.patch(route("ordens.update", {
+            'ordem': order?.id,
+            'company': params
+        }), values);
     }
 
     const AddPartsToOrder = () => {
-        return (
-            <Dialog>
-                <DialogTrigger asChild>
-                    <Button variant="add" size="icon">+</Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>Selecionar peças</DialogTitle>
-                        <DialogDescription>
-                            Adicionar peças e/ou produtos a ordem de serviço.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                        <div className="flex flex-col gap-2 items-start relative">
-                            <FormField
-                                control={form.control}
-                                name="pecas"
-                                render={({ field }) => (
-                                    <FormItem className='sm:col-span-2'>
-                                        <FormLabel>Selecionar</FormLabel>
-                                        <FormControl>
-                                            <Popover open={open} onOpenChange={setOpen}>
-                                                <PopoverTrigger asChild>
-                                                    <FormControl>
-                                                        <Button
-                                                            variant="outline"
-                                                            role="combobox"
-                                                            className={cn(
-                                                                "w-full justify-between",
-                                                                !field.value && "text-muted-foreground"
-                                                            )}
-                                                        >
-                                                            {field.value
-                                                                ? pecas.find(
-                                                                    (peca: any) => peca.value === field.value
-                                                                )?.label
-                                                                : "Selecione o peça"}
-                                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                        </Button>
-                                                    </FormControl>
-                                                </PopoverTrigger>
-                                                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                                                    <Command>
-                                                        <CommandInput placeholder="Localize cliente..." />
-                                                        <CommandList>
-                                                            <CommandEmpty>Cliente não encontrado.</CommandEmpty>
-                                                            <CommandGroup>
-                                                                {pecas.map((peca: any) => (
-                                                                    <CommandItem
-                                                                        value={peca.label}
-                                                                        key={peca.value}
-                                                                        onSelect={() => {
-                                                                            form.setValue("pecas", peca.value)
-                                                                            setOpen(false)
-                                                                        }}
-                                                                    >
-                                                                        {peca.label}
-                                                                        <Check
-                                                                            className={cn(
-                                                                                "ml-auto",
-                                                                                peca.value === field.value
-                                                                                    ? "opacity-100"
-                                                                                    : "opacity-0"
-                                                                            )}
-                                                                        />
-                                                                    </CommandItem>
-                                                                ))}
-                                                            </CommandGroup>
-                                                        </CommandList>
-                                                    </Command>
-                                                </PopoverContent>
-                                            </Popover>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <div>
+        const [filterSearch, setFilterSearch] = useState<any>([]);
+        const [selectedData, setSelectedData] = useState<any>([]);
+        const [showAutoParts, setShowAutoParts] = useState<boolean>(false)
 
+        const { data, setData } = useForm2({
+            pecas: "",
+            quantidade: "",
+            valor: "",
+        });
+
+        const handleSearch = (value: any) => {
+            const peca = value.toLowerCase();
+            if (value.length > 2) {
+                const result = parts.filter((cl: any) => (cl.descricao.toLowerCase().includes(peca)));
+                setShowAutoParts(true);
+                if (result) {
+                    setFilterSearch(result);
+                } else {
+                    setFilterSearch([]);
+                }
+            } else {
+                setShowAutoParts(false);
+            }
+        };
+
+        const handleDataSelected = (part: any) => {
+            setSelectedData([...selectedData, part]);
+            setShowAutoParts(false);
+            setData("pecas", '')
+        }
+        const handleRemovePart = (idx: number) => {
+            const select = selectedData.filter((item: any, idxb: number) => (idxb !== idx));
+            setSelectedData(select);
+        }
+
+        const handleInsertParts = () => {
+            setSendOrderParts(selectedData);
+            setOpenParts(false);
+        }
+
+        return (
+            <Dialog open={openParts} onOpenChange={setOpenParts}>
+                <DialogTrigger asChild>
+                    <Button variant="add" size="icon" className='h-8 w-8'>+</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:min-w-[425px]">
+                    <form autoComplete='off'>
+                        <DialogHeader>
+                            <DialogTitle>Selecionar peças</DialogTitle>
+                            <DialogDescription>
+                                Adicionar peças e/ou produtos a ordem de serviço.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="py-4">
+                            <div className="flex flex-col gap-2 items-start relative">
+                                <Input
+                                    id="pecas"
+                                    type="text"
+                                    value={data.pecas}
+                                    onChange={(e) => {
+                                        setData(
+                                            "pecas",
+                                            e.target.value,
+                                        )
+                                        handleSearch(e.target.value)
+                                    }
+                                    }
+                                    className="input-form"
+                                />
+                                <div className={`${showAutoParts ? 'absolute' : 'hidden'} bg-white border border-gray-50 shadow w-full rounded top-10`}>
+                                    <div className='p-2 flex flex-col gap-2'>
+                                        {filterSearch?.length == 0 && <p>Não há dados correspondente a pesquisa!</p>}
+                                        {filterSearch?.map((part: any, idx: number) => (
+                                            <p key={idx} className='cursor-pointer' onClick={() => handleDataSelected({ id: part.id, label: part.descricao, val: part.valvenda })}>{part.descricao}</p>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                {selectedData?.map((dt: any, idx: number) => (
+                                    <div className='flex items-center justify-between py-2 border-b my-2'>
+                                        <div className='text-sm px-2'>{dt?.id}</div>
+                                        <div className='text-sm flex-1'>{dt?.label}</div>
+                                        <div className='text-sm px-2'>{dt?.val}</div>
+                                        <div className='text-sm px-2'><Trash size={20} onClick={() => handleRemovePart(idx)} className='cursor-pointer' /></div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                    <DialogFooter>
-                        <Button type="submit" className='flex gap-2'>
-                            <Save />
-                            <span>Inserir peças</span>
-                        </Button>
-                    </DialogFooter>
+                        <DialogFooter>
+                            <Button
+                                type="button"
+                                className='flex gap-2'
+                                onClick={handleInsertParts}
+                            >
+                                <Save />
+                                <span>Inserir peças</span>
+                            </Button>
+                        </DialogFooter>
+                    </form>
                 </DialogContent>
             </Dialog>
         )
@@ -408,17 +433,29 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                                         </FormItem>
                                     )}
                                 />
+                                
                                 <div className='sm:col-span-2 pb-7 h-full'>
                                     <div className='text-sm font-medium h-8'>Adicionar peças do estoque</div>
                                     <div className=' bg-gray-50 h-full flex rounded-md border'>
                                         <div className='flex-1'>
-
+                                            {sendOrderParts?.map((dt: any, idx: number) => (
+                                                <div className='flex items-center justify-between py-2 border-b my-2'>
+                                                    <div className='text-sm px-2'>{dt?.id}</div>
+                                                    <div className='text-sm flex-1'>{dt?.label}</div>
+                                                    <div className='text-sm px-2'>{dt?.val}</div>
+                                                    <div className='text-sm px-2'><Trash size={20} className='cursor-pointer' /></div>
+                                                </div>
+                                            ))}
                                         </div>
-                                        <div className='flex flex-col justify-center gap-4 bg-gray-100 px-2 rounded-r-md border-l'>
+                                        <div className='flex flex-col justify-center gap-2 bg-gray-100 px-2 rounded-r-md border-l'>
                                             <AddPartsToOrder />
-                                            <Button asChild variant="destructive" size="icon">
+                                            <Button asChild variant="destructive" size="icon" >
                                                 <Link
+                                                    className='p-0 m-0 h-8 w-8'
                                                     href='#'
+                                                    as='button'
+                                                    type='button'
+                                                    onClick={(e) => { e.preventDefault(); setSendOrderParts([]) }}
                                                 >
                                                     -
                                                 </Link>

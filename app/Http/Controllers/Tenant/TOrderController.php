@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Tenant\TCustomer;
 use App\Models\Tenant\TPart;
 use App\Models\Tenant\TUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -105,9 +107,46 @@ class TOrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TOrder $tOrder)
+    public function update(Request $request)
     {
-        dd($request->all());
+        $data = $request->all();
+        $messages = [
+            'required' => 'O campo :attribute deve ser preenchido'
+        ];
+        $request->validate(
+            [
+                'equipamento' => 'required',
+                'defeito' => 'required',
+                'tecnico' => 'required'
+            ],
+            $messages,
+            [
+                'equipamento' => 'equipamento',
+                'senha' => 'senha',
+            ]
+        );
+        $dtformat = Carbon::now();
+        $data['dtentrega'] = $request->status == '8' ? $dtformat->toDateTimeString() : null;
+
+        // if (!empty($request->produtos)) {
+        //     foreach ($request->produtos as $peca) {
+        //         $pec[] = [
+        //             'ordem_id' => $ordem->id,
+        //             'produto_id' => $peca,
+        //             'quantidade' => 1
+        //         ];
+        //     }
+        //     $ord = Ordem::find($ordem->id);
+        //     $ord->produtos()->sync($pec);
+        // } else {
+        //     $ord = Ordem::find($ordem->id);
+        //     $ord->produtos()->sync([]);
+        // }
+
+        $current = Route::current()->parameters();
+        DB::table('tcustomers')->where('id', $request->id)->update($data);
+        Session::flash('success', 'Ordem de serviço editada com sucesso!');
+        return Redirect::route('clientes.show', ['cliente' => $current['cliente'], 'company' => $current['company']]);
     }
 
     /**

@@ -10,12 +10,15 @@ const TenantContext = createContext({} as any);
 export const TenantProvider = ({ children }: TenantProviderType) => {
     const [colapseSideBar, setColapseSideBar] = useState<boolean>(true);
     const [colapseMobile, setColapseMobile] = useState<boolean>(false);
+    const [sendOrderParts, setSendOrderParts] = useState<any>([]);
     return (
         <TenantContext.Provider value={{
             colapseSideBar,
             setColapseSideBar,
             colapseMobile,
-            setColapseMobile
+            setColapseMobile,
+            sendOrderParts, 
+            setSendOrderParts
         }}>
             {children}
         </TenantContext.Provider>
