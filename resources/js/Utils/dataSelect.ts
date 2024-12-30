@@ -26,18 +26,18 @@ const movimentosProdutos = [
 ];
 
 const unidadesProdutos = [
-    { value: 1, label: "Unidade" },
-    { value: 2, label: "Caixa" },
-    { value: 3, label: "Metros" },
-    { value: 4, label: "Kg" },
-    { value: 5, label: "Litros" },
+    { value: '1', label: "Unidade" },
+    { value: '2', label: "Caixa" },
+    { value: '3', label: "Metros" },
+    { value: '4', label: "Kg" },
+    { value: '5', label: "Litros" },
 ];
 
 const tiposProdutos = [
-    { value: 1, label: "Nova" },
-    { value: 2, label: "Usada" },
-    { value: 3, label: "Seminova" },
-    { value: 4, label: "Remanufaturada" },
+    { value: '1', label: "Novo" },
+    { value: '2', label: "Usado" },
+    { value: '3', label: "Seminovo" },
+    { value: '4', label: "Remanufaturado" },
 ];
 
 const statusAgenda = [

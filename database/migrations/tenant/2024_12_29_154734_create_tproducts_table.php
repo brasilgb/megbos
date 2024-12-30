@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tparts', function (Blueprint $table) {
+        Schema::create('tproducts', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->primary()->index();
             $table->text('codbarra')->nullable();
             $table->string('descricao');
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tparts');
+        Schema::dropIfExists('tproducts');
     }
 };

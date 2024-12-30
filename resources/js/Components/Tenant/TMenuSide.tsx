@@ -1,7 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Home, Users2, Wrench } from 'lucide-react';
-import React from 'react'
-import { useRoute } from '../../../../vendor/tightenco/ziggy/src/js';
+import { Home, ShoppingBasket, Users2, Wrench } from 'lucide-react';
 
 interface TMenuSideProps {
     colapside: boolean;
@@ -29,6 +27,12 @@ const TMenuSide = ({ colapside }: TMenuSideProps) => {
             url: route('ordens.index', params),
             icon: Wrench,
             active: route().current('ordens.*', params)
+        },
+        {
+            label: 'Produtos',
+            url: route('produtos.index', params),
+            icon: ShoppingBasket,
+            active: route().current('produtos.*', params)
         }
     ];
     return (

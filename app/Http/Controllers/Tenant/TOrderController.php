@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Tenant;
 use App\Models\Tenant\TOrder;
 use App\Http\Controllers\Controller;
 use App\Models\Tenant\TCustomer;
-use App\Models\Tenant\TPart;
+use App\Models\Tenant\TProduct;
 use App\Models\Tenant\TUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -91,7 +91,7 @@ class TOrderController extends Controller
         $torder = TOrder::where('id', $current['ordem'])->first();
         $tcustomers = TCustomer::get();
         $tecnicos = TUser::get();
-        $parts = TPart::get();
+        $parts = TProduct::get();
         return Inertia::render('Tenant/TOrders/editTOrder', ['order' => $torder, 'customers' => $tcustomers, 'tecnicos' => $tecnicos, 'parts' => $parts]);
     }
 
