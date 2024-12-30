@@ -28,7 +28,7 @@ return new class extends Migration
             $table->decimal('valservico', 10, 2)->nullable();
             $table->decimal('custo', 10, 2)->nullable();
             $table->string('previsao')->nullable();
-            $table->tinyInteger('status')->default('1');
+            $table->string('status')->default('1');
             $table->dateTime('dtentrega')->nullable();
             $table->string('tecnico', 50)->nullable();
             $table->text('obs')->nullable();

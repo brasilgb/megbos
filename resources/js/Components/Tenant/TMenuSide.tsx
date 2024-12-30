@@ -6,33 +6,32 @@ interface TMenuSideProps {
 }
 
 const TMenuSide = ({ colapside }: TMenuSideProps) => {
-    const params = route().params;
-
+    const params = route().params.company;
 
     const sideNavItems = [
         {
             label: 'Home',
-            url: route('tdashboard', params),
+            url: route('tdashboard', {company: params}),
             icon: Home,
-            active: route().current('tdashboard', params)
+            active: route().current('tdashboard', {company: params})
         },
         {
             label: 'Clientes',
-            url: route('clientes.index', params),
+            url: route('clientes.index', {company: params}),
             icon: Users2,
-            active: route().current('clientes.*', params)
+            active: route().current('clientes.*', {company: params})
         },
         {
             label: 'Ordens',
-            url: route('ordens.index', params),
+            url: route('ordens.index', {company: params}),
             icon: Wrench,
-            active: route().current('ordens.*', params)
+            active: route().current('ordens.*', {company: params})
         },
         {
             label: 'Produtos',
-            url: route('produtos.index', params),
+            url: route('produtos.index', {company: params}),
             icon: ShoppingBasket,
-            active: route().current('produtos.*', params)
+            active: route().current('produtos.*', {company: params})
         }
     ];
     return (

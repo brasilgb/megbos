@@ -114,7 +114,7 @@ class TCustomerController extends Controller
             [
                 'nome' => 'required',
                 'cpf' => 'nullable|cpf_ou_cnpj|unique:tcustomers,cpf,' . $request->id,
-                'email' => ['required','email', Rule::unique('tcustomers')->ignore($request->id,'id')],
+                'email' => ['required', 'email', Rule::unique('tcustomers')->ignore($request->id, 'id')],
                 'telefone' => 'required'
             ],
             $messages,

@@ -144,9 +144,9 @@ class TOrderController extends Controller
         // }
 
         $current = Route::current()->parameters();
-        DB::table('tcustomers')->where('id', $request->id)->update($data);
+        DB::table('torders')->where('id', $current['ordem'])->update($data);
         Session::flash('success', 'Ordem de serviço editada com sucesso!');
-        return Redirect::route('clientes.show', ['cliente' => $current['cliente'], 'company' => $current['company']]);
+        return Redirect::route('ordens.show', ['ordem' => $current['ordem'], 'company' => $current['company']]);
     }
 
     /**

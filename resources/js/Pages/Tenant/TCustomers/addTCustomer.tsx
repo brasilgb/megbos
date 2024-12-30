@@ -14,6 +14,8 @@ type Props = {}
 
 const addTCustomer = ({ customer }: any) => {
     const params = route().params;
+    console.log(params);
+    
     const { errors } = usePage().props as any;
 
     const form = useForm({

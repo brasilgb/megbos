@@ -131,7 +131,7 @@ class TProductController extends Controller
         );
         
         $current = Route::current()->parameters();
-        DB::table('tproducts')->where('id', $request->id)->update($data);
+        DB::table('tproducts')->where('id', $current['produto'])->update($data);
         Session::flash('success', 'Produto alterado com sucesso!');
         return Redirect::route('produtos.show', ['produto' => $current['produto'], 'company' => $current['company']]);
     }

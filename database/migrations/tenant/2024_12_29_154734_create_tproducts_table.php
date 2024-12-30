@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('quantidade');
             $table->string('estmaximo');
             $table->string('estminimo');
-            $table->tinyInteger('tipo');
+            $table->string('tipo');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });

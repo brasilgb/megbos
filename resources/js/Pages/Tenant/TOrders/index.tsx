@@ -3,21 +3,20 @@ import FlashMessage from '@/Components/FlashMessage';
 import InputSearch from '@/Components/InputSearch';
 import Pagination from '@/Components/Pagination';
 import THeaderMain from '@/Components/Tenant/THeaderMain';
-import { Badge } from '@/Components/ui/badge';
 import { BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card';
-import { Input } from '@/Components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import TenantLayout from '@/Layouts/TenantLayout';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { Plus, Search, SquarePen, User2, Wrench } from 'lucide-react';
+import { Plus, SquarePen, Wrench } from 'lucide-react';
 import moment from 'moment';
 
 const TOrders = ({ orders }: any) => {
   const { data, setData, post, get, processing, errors } = useForm({
     q: "",
   });
+  
   const params = route().params.company;
   const { flash } = usePage().props as any;
 

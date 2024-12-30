@@ -6,7 +6,6 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/Components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/ui/form'
 import { Input } from '@/Components/ui/input'
-import { Label } from '@/Components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/Components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select'
 import { Textarea } from '@/Components/ui/textarea'
@@ -48,21 +47,20 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
             valservico: order.valservico,
             custo: order.custo,
             status: order.status,
-            tecnico: order.tecnico ? order.tecnico : '',
+            tecnico: order.tecnico,
             servico: order.servico,
             dtentrega: order.dtentrega,
             obs: order.obs,
-            produtos: sendOrderParts,
         }
     });
 
     useEffect(() => {
-        form.setValue('produtos', sendOrderParts.map((produto: any) => (produto.id)))
+        form.setValue('pecas', sendOrderParts.map((produto: any) => (produto.id)))
     }, [form, sendOrderParts])
     
     function onSubmit(values: any) {
         const sendOrder = sendOrderParts.map((produto: any) => (produto.id));
-        form.setValue('produtos', sendOrder)
+        form.setValue('pecas', sendOrder)
         router.patch(route("ordens.update", {
             'ordem': order?.id,
             'company': params
@@ -511,7 +509,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Técnico</FormLabel>
-                                            <Select {...field} onValueChange={field.onChange} defaultValue={field.value}>
+                                            <Select {...field} onValueChange={field.onChange} value={field.value}>
                                                 <FormControl>
                                                     <SelectTrigger className="w-full">
                                                         <SelectValue placeholder="Selecione o técnico" />
@@ -519,7 +517,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                                                 </FormControl>
                                                 <SelectContent>
                                                     {tecnicos?.map((tec: any, idx: number) => (
-                                                        <SelectItem key={idx} value={tec.id}>{tec.name}</SelectItem>
+                                                        <SelectItem key={idx} value={`${tec.id}`}>{tec.name}</SelectItem>
                                                     ))}
                                                 </SelectContent>
                                             </Select>
