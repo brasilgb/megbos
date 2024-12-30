@@ -1,3 +1,4 @@
+import FlashMessage from '@/Components/FlashMessage'
 import THeaderMain from '@/Components/Tenant/THeaderMain'
 import { BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb'
 import { Button } from '@/Components/ui/button'
@@ -23,10 +24,10 @@ type Props = {}
 
 const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
     const params = route().params.company;
-    const { errors } = usePage().props as any;
+    const { errors, flash } = usePage().props as any;
     const clientes = customers.map((customer: any) => ({ label: customer.nome, value: customer.id }));
     // const pecas = parts.map((part: any) => ({ label: part.nome, value: part.id }));
-    const {sendOrderParts, setSendOrderParts} = useTenantContext();
+    const { sendOrderParts, setSendOrderParts } = useTenantContext();
     const [open, setOpen] = useState<boolean>(false)
     const [openParts, setOpenParts] = useState<boolean>(false)
     const form = useForm({
@@ -41,7 +42,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
             acessorios: order.acessorios,
             previsao: order.previsao,
             descorcamento: order.descorcamento,
-            valorcamento: "0",
+            valorcamento: order.valorcamento,
             pecas: order.pecas,
             valpecas: order.valpecas,
             valservico: order.valservico,
@@ -54,13 +55,13 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
         }
     });
 
-    useEffect(() => {
-        form.setValue('pecas', sendOrderParts.map((produto: any) => (produto.id)))
-    }, [form, sendOrderParts])
-    
+    // useEffect(() => {
+    //     form.setValue('pecas', sendOrderParts.map((produto: any) => (produto.id)))
+    // }, [form, sendOrderParts])
+
     function onSubmit(values: any) {
-        const sendOrder = sendOrderParts.map((produto: any) => (produto.id));
-        form.setValue('pecas', sendOrder)
+        // const sendOrder = sendOrderParts.map((produto: any) => (produto.id));
+        // form.setValue('pecas', sendOrder?sendOrder:values.pecas)
         router.patch(route("ordens.update", {
             'ordem': order?.id,
             'company': params
@@ -104,6 +105,8 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
         }
 
         const handleInsertParts = () => {
+            const sendOrder = selectedData.map((produto: any) => (produto.id));
+            form.setValue('pecas', sendOrder)
             setSendOrderParts(selectedData);
             setOpenParts(false);
         }
@@ -204,6 +207,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                     </CardContent>
                     <CardContent></CardContent>
                 </CardHeader>
+                {flash?.message && <FlashMessage message={flash?.message} />}
                 <CardContent>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" autoComplete='off'>
@@ -403,6 +407,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                                         </FormItem>
                                     )}
                                 />
+
                                 <FormField
                                     control={form.control}
                                     name="valorcamento"
@@ -417,6 +422,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                                     )}
                                 />
                             </div>
+
                             <div className='sm:grid grid-cols-7 gap-4 mt-6'>
                                 <FormField
                                     control={form.control}
@@ -431,7 +437,6 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                                         </FormItem>
                                     )}
                                 />
-                                
                                 <div className='sm:col-span-2 pb-7 h-full'>
                                     <div className='text-sm font-medium h-8'>Adicionar peças do estoque</div>
                                     <div className=' bg-gray-50 h-full flex rounded-md border'>
@@ -460,7 +465,6 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                                             </Button>
                                         </div>
                                     </div>
-
                                 </div>
                                 <FormField
                                     control={form.control}

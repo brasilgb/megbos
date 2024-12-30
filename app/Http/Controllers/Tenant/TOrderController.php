@@ -127,7 +127,7 @@ class TOrderController extends Controller
         );
         $dtformat = Carbon::now();
         $data['dtentrega'] = $request->status == '8' ? $dtformat->toDateTimeString() : null;
-
+        $data['pecas'] = is_array($request->pecas) ? '' : $request->pecas;
         // if (!empty($request->produtos)) {
         //     foreach ($request->produtos as $peca) {
         //         $pec[] = [
