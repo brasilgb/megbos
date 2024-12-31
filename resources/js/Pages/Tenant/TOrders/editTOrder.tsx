@@ -20,8 +20,6 @@ import { ArrowLeft, Check, ChevronsUpDown, Save, Trash, Wrench } from 'lucide-re
 import { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
 
-type Props = {}
-
 const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
     const params = route().params.company;
     const { errors, flash } = usePage().props as any;
