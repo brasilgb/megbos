@@ -36,4 +36,8 @@ class TOrder extends Model
         return $this->belongsTo(TCustomer::class);
     }
 
+    public function produtos()
+    {
+        return $this->belongsToMany(TProduct::class, 'torder_tproduct', 'id', 'produto_id');
+    }
 }

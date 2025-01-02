@@ -103,7 +103,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
         }
 
         const handleInsertParts = () => {
-            const sendOrder = selectedData.map((produto: any) => (produto.id));
+            const sendOrder = selectedData.map((produto: any) => (produto.id, produto.valorvenda));
             form.setValue('pecas', sendOrder)
             setSendOrderParts(selectedData);
             setOpenParts(false);

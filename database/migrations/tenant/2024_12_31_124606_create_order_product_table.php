@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tproduct_order', function (Blueprint $table) {
+        Schema::create('torder_tproduct', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ordem_id')->nullable()->constrained('torders')->onDelete('cascade');
-            $table->foreignId('produto_id')->nullable()->constrained('tproducts')->onDelete('cascade');
+            $table->foreignId('ordem_id')->nullable()->constrained(table:'torders')->onDelete('cascade');
+            $table->foreignId('produto_id')->nullable()->constrained(table:'tproducts')->onDelete('cascade');
             $table->integer('quantidade');
             $table->decimal('valvenda', 10,2);
             $table->timestamp('created_at')->useCurrent();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tproduct_order');
+        Schema::dropIfExists('torder_tproduct');
     }
 };

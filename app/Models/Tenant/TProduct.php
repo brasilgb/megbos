@@ -20,4 +20,9 @@ class TProduct extends Model
         'estminimo',
         'tipo',
     ];
+    public function ordens()
+    {
+        return $this->belongsToMany(TOrder::class, 'torder_tproduct', 'id', 'ordem_id');
+    }
+
 }

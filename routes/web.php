@@ -21,6 +21,8 @@ Route::middleware('tenant')->domain('{company}.megbos.test')->group(function () 
     Route::resource('/clientes', TCustomerController::class);
     Route::resource('/ordens', TOrderController::class)->parameters(['ordens' => 'ordem']);
     Route::resource('/produtos', TProductController::class)->parameters(['ordens' => 'ordem']);
+    Route::resource('/mensagens', TProductController::class)->parameters(['mensagens' => 'mensagem']);
+    Route::resource('/agendamentos', TProductController::class)->parameters(['agendamentos' => 'agendamento']);
 });
 
 Route::domain('megbos.test')->group(function () {

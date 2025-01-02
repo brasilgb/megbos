@@ -139,8 +139,11 @@ class TProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
-        //
+        $current = Route::current()->parameters();
+        TProduct::where('id', $current['produto'])->delete();
+        Session::flash('success', 'Produto deletado com sucesso');
+        return Redirect::route('produtos.index', $current['company']);
     }
 }

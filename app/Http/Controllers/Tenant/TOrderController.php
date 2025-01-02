@@ -125,25 +125,29 @@ class TOrderController extends Controller
                 'senha' => 'senha',
             ]
         );
+        $current = Route::current()->parameters();
         $dtformat = Carbon::now();
         $data['dtentrega'] = $request->status == '8' ? $dtformat->toDateTimeString() : null;
         $data['pecas'] = is_array($request->pecas) ? '' : $request->pecas;
-        // if (!empty($request->produtos)) {
-        //     foreach ($request->produtos as $peca) {
-        //         $pec[] = [
-        //             'ordem_id' => $ordem->id,
-        //             'produto_id' => $peca,
-        //             'quantidade' => 1
-        //         ];
-        //     }
-        //     $ord = Ordem::find($ordem->id);
-        //     $ord->produtos()->sync($pec);
-        // } else {
-        //     $ord = Ordem::find($ordem->id);
+
+        if (is_array($request->pecas)) {
+            foreach ($request->pecas as $peca) {
+                $pec[] = [
+                    'ordem_id' => $current['ordem'],
+                    'produto_id' => $peca,
+                    'quantidade' => 1,
+                    'valorvenda' =>  $request->valorvenda
+                ];
+            }
+            dd($pec);
+            $ord = TOrder::find($current['ordem']);
+            $ord->produtos()->sync($pec);
+        } 
+        // else {
+        //     $ord = TOrder::find($current['ordem']);
         //     $ord->produtos()->sync([]);
         // }
 
-        $current = Route::current()->parameters();
         DB::table('torders')->where('id', $current['ordem'])->update($data);
         Session::flash('success', 'Ordem de serviço editada com sucesso!');
         return Redirect::route('ordens.show', ['ordem' => $current['ordem'], 'company' => $current['company']]);
@@ -152,8 +156,11 @@ class TOrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TOrder $tOrder)
+    public function destroy()
     {
-        //
+        $current = Route::current()->parameters();
+        TOrder::where('id', $current['ordem'])->delete();
+        Session::flash('success', 'Ordem de serviço deletada com sucesso');
+        return Redirect::route('ordens.index', $current['company']);
     }
 }
