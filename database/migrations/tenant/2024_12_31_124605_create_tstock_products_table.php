@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('produto_id');
             $table->integer("quantidade");
-            $table->decimal("valor", 10,2);
+            $table->decimal("valvenda", 10,2);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });

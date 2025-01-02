@@ -19,7 +19,7 @@ return new class extends Migration
         CALL SP_StockProduct (
             new.id,
             new.quantidade,
-            new.valor
+            new.valvenda
                             );
         END
         ');

@@ -19,8 +19,8 @@ return new class extends Migration
         CALL SP_StockProduct (
             new.id,
             new.quantidade - old.quantidade,
-            new.valor - old.valor,
-                            );
+            new.valvenda - old.valvenda
+            );
         END
         ');
     }

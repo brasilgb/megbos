@@ -19,7 +19,7 @@ return new class extends Migration
         CALL SP_StockProduct (
             new.id,
             old.quantidade - new.quantidade,
-            old.valor - new.valor
+            old.valvenda - new.valvenda
             );
         END
         ');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trigger_update_product_order');
+       DB::unprepared('DROP TRIGGER `TRG_update_product_order`');
     }
 };

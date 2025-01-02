@@ -16,14 +16,14 @@ return new class extends Migration
         DROP PROCEDURE IF EXISTS `SP_StockProduct`;
         CREATE PROCEDURE `SP_StockProduct`(
             IN `SP_produto_id` INT(10),
-            IN `SP_quantidade` INT(10)),
-            IN `SP_valor` DECIMAL(10,2)),
+            IN `SP_quantidade` INT(10),
+            IN `SP_valvenda` DECIMAL(10,2))
             BEGIN declare contador int(10);
             select count(*) into contador from tstock_products where produto_id = SP_produto_id;
             if contador > 0 then
-            update tstock_products set produto_id = SP_produto_id, quantidade = quantidade + SP_quantidade, valor = valor + SP_valor where produto_id = SP_produto_id;
+            update tstock_products set produto_id = SP_produto_id, quantidade = quantidade + SP_quantidade, valvenda = valvenda + SP_valvenda where produto_id = SP_produto_id;
             else
-            insert into tstock_products ( produto_id, quantidade, valor ) values( SP_produto_id, SP_quantidade, SP_valor );
+            insert into tstock_products ( produto_id, quantidade, valvenda ) values( SP_produto_id, SP_quantidade, SP_valvenda );
             end if;
             END
             ');

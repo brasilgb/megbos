@@ -13,13 +13,13 @@ return new class extends Migration
     public function up(): void
     {
         DB::unprepared('
-        CREATE TRIGGER `TRG_delete_product_order` AFTER UPDATE ON `tproduct_order`
+        CREATE TRIGGER `TRG_delete_product_order` AFTER DELETE ON `tproduct_order`
         FOR EACH ROW
         BEGIN
         CALL SP_StockProduct (
             old.id,
             old.quantidade * -1,
-            old.valor * -1,
+            old.valvenda * -1
             );
         END
         ');

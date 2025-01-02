@@ -13,13 +13,13 @@ return new class extends Migration
     public function up(): void
     {
         DB::unprepared('
-        CREATE TRIGGER `TRG_update_product` AFTER UPDATE ON `tproducts`
+        CREATE TRIGGER `TRG_delete_product` AFTER DELETE ON `tproducts`
         FOR EACH ROW
         BEGIN
         CALL SP_StockProduct (
             old.id,
             old.quantidade * -1,
-            old.valor * -1,
+            old.valvenda * -1
             );
         END
         ');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::unprepared('DROP TRIGGER `TRG_update_product`');
+        DB::unprepared('DROP TRIGGER `TRG_delete_product`');
     }
 };
