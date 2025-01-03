@@ -47,7 +47,7 @@ const editProduct = ({ product }: any) => {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <Link href={route('produtos.index', params)}>Clientes</Link>
+                        <Link href={route('produtos.index', params)}>Produtos</Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>

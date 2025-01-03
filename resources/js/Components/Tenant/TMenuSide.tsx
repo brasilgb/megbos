@@ -86,7 +86,7 @@ const TMenuSide = ({ colapside }: TMenuSideProps) => {
             <div className='w-full flex flex-col gap-2'>
                 <ul className='flex flex-col gap-2'>
                     {sideNavItems?.map((item: any, idx: number) => (
-                        <li key={idx} className={`${item.active ? 'bg-gray-50 text-sky-800' : 'text-gray-50'} rounded-md hover:bg-gray-50/80 hover:text-sky-800/50 h-8 flex items-center ${!colapside && 'justify-center'} p-2 cursor-pointer transition-colors duration-300`}>
+                        <li key={idx} className={`${item.active ? 'bg-gray-50 text-sky-800' : 'text-gray-50'} rounded-md hover:bg-gray-50/80 hover:text-sky-800/50 h-10 flex items-center ${!colapside && 'justify-center'} p-2 cursor-pointer transition-colors duration-300`}>
                             <Link
                                 href={item.url}
                                 className='flex items-center gap-1 w-full'
@@ -98,7 +98,7 @@ const TMenuSide = ({ colapside }: TMenuSideProps) => {
                     ))}
                 </ul>
                 <div>
-                    <div onClick={() => setOpenSubMenu(!openSubMenu)} className={`relative ${0 ? 'bg-gray-50 text-sky-800' : 'text-gray-50'} h-8 flex items-center ${!colapside && 'justify-center'} p-2 cursor-pointer transition-colors duration-300`}>
+                    <div onClick={() => setOpenSubMenu(!openSubMenu)} className={`relative ${0 ? 'bg-gray-50 text-sky-800' : 'text-gray-50'} h-10 flex items-center ${!colapside && 'justify-center'} p-2 cursor-pointer transition-colors duration-300`}>
                         <SlidersHorizontal size={20} />
                         <h1 className={`flex-1 ml-1 ${!colapside ? 'hidden' : ''}`}>Configurações</h1>
                         <ChevronDown size={20} className={`${openSubMenu ? 'rotate-0' : 'rotate-180'} duration-300 ${!colapside ? 'hidden' : ''}`} />
@@ -106,7 +106,7 @@ const TMenuSide = ({ colapside }: TMenuSideProps) => {
                     <div className={`pl-4 absolute  ${openSubMenu ? 'block' : 'hidden'} transition-all duration-300`}>
                         <ul className={`flex flex-col gap-2 border-l ${!colapside ? 'bg-blue-primary pr-2 rounded-r-md shadow-md' : 'bg-transparent'}`}>
                             {sideNavItems2?.map((item: any, idx: number) => (
-                                <li key={idx} className={` text-white hover:text-sky-800/50 h-8 flex items-center ${!colapside && 'justify-center'} cursor-pointer transition-colors duration-300`}>
+                                <li key={idx} className={` text-white hover:text-sky-800/50 h-10 flex items-center ${!colapside && 'justify-center'} cursor-pointer transition-colors duration-300`}>
                                     <Link
                                         href={item.url}
                                         className='flex items-center gap-2 w-full'

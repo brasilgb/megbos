@@ -9,35 +9,34 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import TenantLayout from '@/Layouts/TenantLayout';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { Plus, SquarePen, Wrench } from 'lucide-react';
+import { MessageCircleMore, Plus, SquarePen } from 'lucide-react';
 import moment from 'moment';
 
-const TOrders = ({ orders }: any) => {
+const TMessages = ({ messages }: any) => {
   const { data, setData, post, get, processing, errors } = useForm({
     q: "",
   });
-
   const params = route().params.company;
   const { flash } = usePage().props as any;
 
   return (
     <TenantLayout>
-      <Head title='Ordens' />
-      <THeaderMain icon={Wrench} title="Ordens" >
+      <Head title='Mensagens' />
+      <THeaderMain icon={MessageCircleMore} title="Mensagens" >
         <BreadcrumbList>
           <BreadcrumbItem>
             <Link href={route('tdashboard', params)}>Home</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Ordens</BreadcrumbPage>
+            <BreadcrumbPage>Mensagens</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </THeaderMain>
       <Card className='sm:p-4 p-2'>
         <CardHeader className='flex flex-row items-center justify-between px-0 py-0 pb-2 border-b'>
           <CardContent className='p-0 w-1/2'>
-            <InputSearch placeholder={''} url={route('ordens.index', params)} />
+            <InputSearch placeholder={''} url={route('mensagens.index', params)} />
           </CardContent>
           <CardContent className='p-0'>
             <Button
@@ -46,7 +45,7 @@ const TOrders = ({ orders }: any) => {
               size="icon"
             >
               <Link
-                href={route('ordens.create', params)}
+                href={route('mensagens.create', params)}
               >
                 <Plus />
               </Link>
@@ -59,35 +58,35 @@ const TOrders = ({ orders }: any) => {
             <Table className=' w-full mt-4'>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[40px]">#Ordem</TableHead>
-                  <TableHead className="w-[190px]">Nome do cliente</TableHead>
-                  <TableHead>CPF</TableHead>
-                  <TableHead>Telefone</TableHead>
-                  <TableHead>Cadastro</TableHead>
+                  <TableHead className="w-[40px]">#ID</TableHead>
+                  <TableHead>Remetente</TableHead>
+                  <TableHead>Destinatário</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Envio</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {orders.data?.map((order: any) => (
+                {messages.data?.map((message: any) => (
                   <TableRow>
-                    <TableCell className="font-medium">{order?.id}</TableCell>
-                    <TableCell className="font-medium">{order.cliente.nome}</TableCell>
-                    <TableCell className="font-medium">{order?.cpf}</TableCell>
-                    <TableCell className="font-medium">{order?.telefone}</TableCell>
-                    <TableCell>{moment(order?.created_at).format("DD/MM/YYYY")}</TableCell>
+                    <TableCell className="font-medium">{message?.id}</TableCell>
+                    <TableCell className="font-medium">{message?.remetente}</TableCell>
+                    <TableCell className="font-medium">{message?.destinatario}</TableCell>
+                    <TableCell className="font-medium">{message?.status}</TableCell>
+                    <TableCell>{moment(message?.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className="flex items-center justify-end gap-2">
                       <Button variant='edit' size='icon' asChild>
                         <Link
-                          href={route('ordens.edit', { 'ordem': order.id, 'company': params })}
+                          href={route('mensagens.edit', { 'mensagem': message.id, 'company': params })}
                         >
                           <SquarePen />
                         </Link>
                       </Button>
                       <ModalDelete
-                        url="ordens.destroy"
-                        param={{ 'ordem': order.id, 'company': params }}
-                        title='Excluir Ordem'
-                        content={`a ordem do cliente ${order?.cliente.nome}`}
+                        url="mensagens.destroy"
+                        param={{ 'mensagem': message.id, 'company': params }}
+                        title='Excluir Produto'
+                        content={`a mensagem de ${message?.remetente}`}
                       />
                     </TableCell>
                   </TableRow>
@@ -96,9 +95,9 @@ const TOrders = ({ orders }: any) => {
             </Table>
           </div>
         </CardContent>
-        {orders.total > orders.per_page &&
+        {messages.total > messages.per_page &&
           <CardFooter>
-            <Pagination data={orders} />
+            <Pagination data={messages} />
           </CardFooter>
         }
       </Card>
@@ -106,4 +105,4 @@ const TOrders = ({ orders }: any) => {
   )
 }
 
-export default TOrders;
+export default TMessages;

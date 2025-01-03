@@ -22,7 +22,7 @@ const addTOrder = ({ order, customers }: any) => {
     const params = route().params;
     const { errors } = usePage().props as any;
     const clientes = customers.map((customer:any) => ({label: customer.nome, value: customer.id}));
-    const [open, setOpen] = useState<boolean>(false)
+    const [open, setOpen] = useState<boolean>(false);
 
     const form = useForm({
         defaultValues: {

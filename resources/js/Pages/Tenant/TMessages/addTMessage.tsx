@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form"
 
 type Props = {}
 
-const addTProduct
+const addTMessage
  = ({ customer }: any) => {
     const params = route().params;
     const { errors } = usePage().props as any;
@@ -49,7 +49,7 @@ const addTProduct
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <Link href={route('produtos.index', params)}>Produtos</Link>
+                        <Link href={route('produtos.index', params)}>Clientes</Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
@@ -231,4 +231,4 @@ const addTProduct
     )
 }
 
-export default addTProduct
+export default addTMessage

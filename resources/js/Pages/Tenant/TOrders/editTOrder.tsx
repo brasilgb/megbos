@@ -103,7 +103,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
         }
 
         const handleInsertParts = () => {
-            const sendOrder = selectedData.map((produto: any) => (produto.id, produto.valorvenda));
+            const sendOrder = selectedData.map((produto: any) => (produto.id, produto.val));
             form.setValue('pecas', sendOrder)
             setSendOrderParts(selectedData);
             setOpenParts(false);
@@ -173,6 +173,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
             </Dialog>
         )
     }
+
     return (
         <TenantLayout>
             <Head title='Alterar Ordem de serviço' />

@@ -1,3 +1,4 @@
+import FlashMessage from '@/Components/FlashMessage'
 import THeaderMain from '@/Components/Tenant/THeaderMain'
 import { BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb'
 import { Button } from '@/Components/ui/button'
@@ -14,31 +15,28 @@ import { useForm } from "react-hook-form"
 
 type Props = {}
 
-const addTProduct
- = ({ customer }: any) => {
-    const params = route().params;
-    const { errors } = usePage().props as any;
+const editTMessage = ({ product }: any) => {
+    const params = route().params.company;
+    const { flash, errors } = usePage().props as any;
 
     const form = useForm({
         defaultValues: {
-            codbarra: "",
-            descricao: "",
-            partnumber: "",
-            valcompra: "",
-            valvenda: "",
-            unidade: "",
-            quantidade: "",
-            estmaximo: "",
-            estminimo: "",
-            tipo: "",
+            codbarra: product?.codbarra,
+            descricao: product?.descricao,
+            partnumber: product?.partnumber,
+            valcompra: product?.valcompra,
+            valvenda: product?.valvenda,
+            unidade: product?.unidade,
+            quantidade: product?.quantidade,
+            estmaximo: product?.estmaximo,
+            estminimo: product?.estminimo,
+            tipo: product?.tipo,
         }
     });
 
-
     function onSubmit(values: any) {
-        router.post(route("produtos.store", params), values);
+        router.patch(route("produtos.update", { 'produto': product?.id, 'company': params }), values);
     }
-
     return (
         <TenantLayout>
             <Head title='Adiciona Produto' />
@@ -49,7 +47,7 @@ const addTProduct
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <Link href={route('produtos.index', params)}>Produtos</Link>
+                        <Link href={route('produtos.index', params)}>Clientes</Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
@@ -71,6 +69,7 @@ const addTProduct
                     </CardContent>
                     <CardContent></CardContent>
                 </CardHeader>
+                {flash?.message && <FlashMessage message={flash?.message} />}
                 <CardContent>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" autoComplete='off'>
@@ -231,4 +230,4 @@ const addTProduct
     )
 }
 
-export default addTProduct
+export default editTMessage
