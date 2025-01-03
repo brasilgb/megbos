@@ -113,7 +113,7 @@ const addTAgenda
                                                                                 value={cliente.label}
                                                                                 key={cliente.value}
                                                                                 onSelect={() => {
-                                                                                    form.setValue("cliente_id", cliente.label)
+                                                                                    form.setValue("cliente_id", cliente.value)
                                                                                     setOpen(false)
                                                                                 }}
                                                                             >

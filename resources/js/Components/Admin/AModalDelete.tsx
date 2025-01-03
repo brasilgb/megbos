@@ -22,7 +22,12 @@ interface ModalDeleteProps {
 
 const ModalDelete = ({ url, param, title, content }: ModalDeleteProps) => {
     const params = route().params.company;
-
+    function onsubmit(e: any) {
+        e.preventDefault();
+        console.log(url, param)
+        router.delete(route(url, param));
+        // setOpenDelete(false);
+    }
     return (
         <Dialog >
             <DialogTrigger asChild>

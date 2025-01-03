@@ -92,7 +92,7 @@ const TAgendas = ({ agendas }: any) => {
                       <ModalDelete
                         url="agendamentos.destroy"
                         param={{ 'agendamento': agenda.id, 'company': params }}
-                        title='Excluir Produto'
+                        title='Excluir Agendamento'
                         content={`o agendamento de ${agenda?.cliente.nome}`}
                       />
                     </TableCell>

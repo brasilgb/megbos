@@ -11,6 +11,8 @@ export const TenantProvider = ({ children }: TenantProviderType) => {
     const [colapseSideBar, setColapseSideBar] = useState<boolean>(true);
     const [colapseMobile, setColapseMobile] = useState<boolean>(false);
     const [sendOrderParts, setSendOrderParts] = useState<any>([]);
+    const [openDelete, setOpenDelete] = useState<boolean>(false)
+    
     return (
         <TenantContext.Provider value={{
             colapseSideBar,
@@ -18,7 +20,9 @@ export const TenantProvider = ({ children }: TenantProviderType) => {
             colapseMobile,
             setColapseMobile,
             sendOrderParts, 
-            setSendOrderParts
+            setSendOrderParts,
+            openDelete, 
+            setOpenDelete
         }}>
             {children}
         </TenantContext.Provider>

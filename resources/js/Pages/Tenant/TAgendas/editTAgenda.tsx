@@ -1,3 +1,4 @@
+import FlashMessage from '@/Components/FlashMessage'
 import THeaderMain from '@/Components/Tenant/THeaderMain'
 import { BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb'
 import { Button } from '@/Components/ui/button'
@@ -18,8 +19,8 @@ import { useForm } from "react-hook-form"
 
 const editTAgenda
     = ({ agendamento, customers, tecnicos }: any) => {
-        const params = route().params;
-        const { errors } = usePage().props as any;
+        const params = route().params.company;
+        const { errors, flash } = usePage().props as any;
         const clientes = customers.map((customer: any) => ({ label: customer.nome, value: customer.id }));
         const [open, setOpen] = useState<boolean>(false);
 
@@ -36,7 +37,7 @@ const editTAgenda
         });
 
         function onSubmit(values: any) {
-            router.post(route("agendamentos.store", params), values);
+            router.patch(route("agendamentos.update", { 'agendamento': agendamento?.id, 'company': params }), values);
         }
 
         return (
@@ -71,6 +72,7 @@ const editTAgenda
                         </CardContent>
                         <CardContent></CardContent>
                     </CardHeader>
+                    {flash?.message && <FlashMessage message={flash?.message} />}
                     <CardContent>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" autoComplete='off'>

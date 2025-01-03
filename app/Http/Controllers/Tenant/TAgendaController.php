@@ -7,6 +7,7 @@ use App\Models\Tenant\TAgenda;
 use App\Models\Tenant\TCustomer;
 use App\Models\Tenant\TUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -93,7 +94,7 @@ class TAgendaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
         $current = Route::current()->parameters();
         return Redirect::route('agendamentos.show', ['agendamento' => $current['agendamento'], 'company' => $current['company']]);
@@ -102,16 +103,43 @@ class TAgendaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $messages = [
+            'required' => 'O campo :attribute deve ser preenchido',
+        ];
+        $request->validate(
+            [
+                'cliente_id' => 'required',
+                'datahora' => 'required',
+                'servico' => 'required',
+                'detalhes' => 'required',
+                'tecnico' => 'required',
+                'status' => 'required',
+            ],
+            $messages,
+            [
+                // 'nome' => 'nome',
+                // 'email' => 'e-mail',
+            ]
+        );
+        $current = Route::current()->parameters();
+        DB::table('tagendas')->where('id', $current['agendamento'])->update($data);
+        Session::flash('success', 'Agendamento alterado com sucesso!');
+        return Redirect::route('agendamentos.show', ['agendamento' => $current['agendamento'], 'company' => $current['company']]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
-        //
+        $current = Route::current()->parameters();
+        // dd($current);
+        TAgenda::where('id', $current['agendamento'])->delete();
+        Session::flash('success', 'Agendamento deletado com sucesso');
+        return Redirect::route('agendamentos.index', $current['company']);
     }
 }
