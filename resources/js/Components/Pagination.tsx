@@ -12,7 +12,7 @@ const Pagination = ({ data }: PaginationProps) => {
     clearLinks.pop();
 
     return (
-        <ul className="flex items-center justify-center py-2 gap-2">
+        <ul className="flex items-center justify-center gap-2">
             <li>
                 {data.prev_page_url !== null ? (
                     <Link

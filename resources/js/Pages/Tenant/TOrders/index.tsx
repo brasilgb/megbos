@@ -9,8 +9,13 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import TenantLayout from '@/Layouts/TenantLayout';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { Plus, SquarePen, Wrench } from 'lucide-react';
+import { ImagePlus, Plus, Printer, SquarePen, Wrench } from 'lucide-react';
+import { FaWhatsapp } from "react-icons/fa";
 import moment from 'moment';
+import Modal from '@/Components/Modal';
+import { Dialog } from '@/Components/ui/dialog';
+import { TDialogPrint } from '@/Components/Tenant/TDialogPrint';
+import { TDialogImage } from '@/Components/Tenant/TDialogImage';
 
 const TOrders = ({ orders }: any) => {
   const { data, setData, post, get, processing, errors } = useForm({
@@ -76,9 +81,21 @@ const TOrders = ({ orders }: any) => {
                     <TableCell className="font-medium">{order?.telefone}</TableCell>
                     <TableCell>{moment(order?.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className="flex items-center justify-end gap-2">
+                      <Button variant='whats' size='icon' asChild>
+                        <Link
+                          href={route('ordens.edit', { 'ordem': order.id, 'company': params })}
+                          title='Enviar mensagem ao cliente'
+                        >
+                          <FaWhatsapp />
+                        </Link>
+                      </Button>
+
+                      <TDialogPrint />
+                      <TDialogImage />
                       <Button variant='edit' size='icon' asChild>
                         <Link
                           href={route('ordens.edit', { 'ordem': order.id, 'company': params })}
+                          title='Editar ordem de serviço'
                         >
                           <SquarePen />
                         </Link>
@@ -86,7 +103,7 @@ const TOrders = ({ orders }: any) => {
                       <ModalDelete
                         url="ordens.destroy"
                         param={{ 'ordem': order.id, 'company': params }}
-                        title='Excluir Ordem'
+                        title='Excluir ordem de serviço'
                         content={`a ordem do cliente ${order?.cliente.nome}`}
                       />
                     </TableCell>

@@ -29,12 +29,12 @@ const TMenuSide = ({ colapside }: TMenuSideProps) => {
             icon: Wrench,
             active: route().current('ordens.*', { company: params })
         },
-        {
-            label: 'Produtos',
-            url: route('produtos.index', { company: params }),
-            icon: ShoppingBasket,
-            active: route().current('produtos.*', { company: params })
-        },
+        // {
+        //     label: 'Produtos',
+        //     url: route('produtos.index', { company: params }),
+        //     icon: ShoppingBasket,
+        //     active: route().current('produtos.*', { company: params })
+        // },
         {
             label: 'Agendamentos',
             url: route('agendamentos.index', { company: params }),

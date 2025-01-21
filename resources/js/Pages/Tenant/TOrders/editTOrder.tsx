@@ -414,7 +414,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                                         <FormItem>
                                             <FormLabel>Valor orçamento</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="" {...field} value={parseValueMoney(field.value)} />
+                                                <Input placeholder="" {...field} />
                                             </FormControl>
                                             <FormMessage >{errors.valorcamento}</FormMessage>
                                         </FormItem>
@@ -422,7 +422,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                                 />
                             </div>
 
-                            <div className='sm:grid grid-cols-7 gap-4 mt-6'>
+                            <div className='sm:grid grid-cols-5 gap-4 mt-6'>
                                 <FormField
                                     control={form.control}
                                     name="pecas"
@@ -436,7 +436,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                                         </FormItem>
                                     )}
                                 />
-                                <div className='sm:col-span-2 pb-7 h-full'>
+                                {/* <div className='sm:col-span-2 pb-7 h-full'>
                                     <div className='text-sm font-medium h-8'>Adicionar peças do estoque</div>
                                     <div className=' bg-gray-50 h-full flex rounded-md border'>
                                         <div className='flex-1'>
@@ -464,7 +464,7 @@ const editTOrder = ({ order, customers, tecnicos, parts }: any) => {
                                             </Button>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                                 <FormField
                                     control={form.control}
                                     name="valpecas"

@@ -36,7 +36,7 @@ class TOrderController extends Controller
             $query->where('cliente_id', $oc);
         }
 
-        $orders = $query->paginate(12)->withQueryString();
+        $orders = $query->paginate(10)->withQueryString();
         // $whats = Whats::orderBy('id', 'DESC')->first();
         // $printers = Impressao::orderBy('id', 'DESC')->first();
         return Inertia::render('Tenant/TOrders/index', ["orders" => $orders]);
