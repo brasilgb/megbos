@@ -1,18 +1,20 @@
+import FlashMessage from '@/Components/FlashMessage'
 import THeaderMain from '@/Components/Tenant/THeaderMain'
 import { BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Components/ui/breadcrumb'
-import { Card, CardContent, CardHeader } from '@/Components/ui/card'
+import { Button } from '@/Components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/ui/form'
 import { Input } from '@/Components/ui/input'
 import TenantLayout from '@/Layouts/TenantLayout'
-import { Head, Link, usePage } from '@inertiajs/react'
-import { ArrowLeft, Building2 } from 'lucide-react'
+import { Head, Link, router, usePage } from '@inertiajs/react'
+import { ArrowLeft, Building2, Save } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
 const TCompany = ({ company }: any) => {
     console.log(company);
 
-    const params = route().params;
-    const { errors } = usePage().props as any;
+    const params = route().params.company;
+    const { flash, errors } = usePage().props as any;
 
     const form = useForm({
         defaultValues: {
@@ -27,12 +29,16 @@ const TCompany = ({ company }: any) => {
             cep: company.cep,
             telefone: company.telefone,
             site: company.site,
-            email: company.email,
+            email: company.email
         }
     });
 
-    const onSubmit = () => {
-
+    function onSubmit(values: any) {
+        router.post(route("empresa.update", { 'empresa': company?.id, 'company': params }), {
+        // router.post(`empresa/${company.id}`, {
+            _method: "put",
+            ...values,
+        });
     }
 
     return (
@@ -63,6 +69,7 @@ const TCompany = ({ company }: any) => {
                     </CardContent>
                     <CardContent></CardContent>
                 </CardHeader>
+                {flash?.message && <FlashMessage message={flash?.message} />}
                 <CardContent>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" autoComplete='off'>
@@ -70,11 +77,15 @@ const TCompany = ({ company }: any) => {
                                 <FormField
                                     control={form.control}
                                     name="logo"
-                                    render={({ field }) => (
+                                    render={({ field: { value, onChange, ...fieldProps } }) => (
                                         <FormItem>
                                             <FormLabel>Logotipo</FormLabel>
                                             <FormControl>
-                                                <Input type='file' {...field} />
+                                                <Input type="file" {...fieldProps}
+                                                    onChange={(event) =>
+                                                        onChange(event.target.files && event.target.files[0])
+                                                    }
+                                                />
                                             </FormControl>
                                             <FormMessage >{errors.logo}</FormMessage>
                                         </FormItem>
@@ -228,6 +239,15 @@ const TCompany = ({ company }: any) => {
                                     )}
                                 />
                             </div>
+                            <CardFooter className='flex justify-end border-t border-gray-200 py-4 pb-0 px-0'>
+                                <Button
+                                    variant="add"
+                                    size="default"
+                                    disabled={!form.formState.isDirty && !form.formState.isValid}
+                                >
+                                    <Save /><span>Salvar</span>
+                                </Button>
+                            </CardFooter>
                         </form>
                     </Form>
                 </CardContent>

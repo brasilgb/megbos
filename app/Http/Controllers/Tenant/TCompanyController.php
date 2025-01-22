@@ -62,19 +62,25 @@ class TCompanyController extends Controller
      */
     public function update(Request $request)
     {
-        $data = $request->all();
+        $tcompany = TCompany::first();
+        // dd($tcompany);
+        $data = $request->except(['_method' ]);
         $storePath = public_path('storage/images');
+        if (!file_exists($storePath)) {
+            mkdir($storePath, 0777, true);
+        };
         if ($request->hasfile('logo')) {
             $fileName = time() . '.' . $request->logo->extension();
             $request->logo->move($storePath, $fileName);
-            if (file_exists($storePath . DIRECTORY_SEPARATOR . $request->logo && $request->logo)) {
+            if (file_exists($storePath . DIRECTORY_SEPARATOR . $tcompany->logo)) {
                 unlink($storePath . DIRECTORY_SEPARATOR . $request->logo);
             }
         }
+        $data['logo'] = $request->hasfile('logo') ? $fileName : $tcompany->logo;
         $current = Route::current()->parameters();
-        DB::table('tcompanies')->where('id', $current['company'])->update($data);
+        DB::table('tcompanies')->where('id', $current['empresa'])->update($data);
         Session::flash('success', 'Dados da empresa editado com sucesso!');
-        return Redirect::route('empresa.index');
+        return Redirect::route('empresa.index', ['company' => $current['company']]);
     }
 
     /**
