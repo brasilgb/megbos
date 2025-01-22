@@ -16,6 +16,7 @@ import Modal from '@/Components/Modal';
 import { Dialog } from '@/Components/ui/dialog';
 import { TDialogPrint } from '@/Components/Tenant/TDialogPrint';
 import { TDialogImage } from '@/Components/Tenant/TDialogImage';
+import { statusOrdemByValue } from '@/Utils/functions';
 
 const TOrders = ({ orders }: any) => {
   const { data, setData, post, get, processing, errors } = useForm({
@@ -64,11 +65,14 @@ const TOrders = ({ orders }: any) => {
             <Table className=' w-full mt-4'>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[40px]">#Ordem</TableHead>
-                  <TableHead className="w-[190px]">Nome do cliente</TableHead>
-                  <TableHead>CPF</TableHead>
+                  <TableHead className="w-[100px]">N° OS</TableHead>
+                  <TableHead className="w-[190px]">Cliente</TableHead>
                   <TableHead>Telefone</TableHead>
-                  <TableHead>Cadastro</TableHead>
+                  <TableHead>Recebimento</TableHead>
+                  <TableHead>Equipamento</TableHead>
+                  <TableHead>Modelo</TableHead>
+                  <TableHead>Status</TableHead>
+                  {/* <TableHead>Entrega</TableHead> */}
                   <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
@@ -77,9 +81,12 @@ const TOrders = ({ orders }: any) => {
                   <TableRow>
                     <TableCell className="font-medium">{order?.id}</TableCell>
                     <TableCell className="font-medium">{order.cliente.nome}</TableCell>
-                    <TableCell className="font-medium">{order?.cpf}</TableCell>
-                    <TableCell className="font-medium">{order?.telefone}</TableCell>
-                    <TableCell>{moment(order?.created_at).format("DD/MM/YYYY")}</TableCell>
+                    <TableCell className="font-medium">{order?.cliente.telefone}</TableCell>
+                    <TableCell className="font-medium">{moment(order?.created_at).format("DD/MM/YYYY")}</TableCell>
+                    <TableCell className="font-medium">{order?.equipamento}</TableCell>
+                    <TableCell className="font-medium">{order?.modelo}</TableCell>
+                    <TableCell className="font-medium">{statusOrdemByValue(order?.status)}</TableCell>
+                    {/* <TableCell>{moment(order?.entrega).format("DD/MM/YYYY")}</TableCell> */}
                     <TableCell className="flex items-center justify-end gap-2">
                       <Button variant='whats' size='icon' asChild>
                         <Link

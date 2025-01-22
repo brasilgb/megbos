@@ -1,4 +1,4 @@
-import { Copy, ImagePlus, Printer } from "lucide-react"
+import { Copy, ImagePlus, Printer, Save } from "lucide-react"
 
 import { Button } from "@/Components/ui/button"
 import {
@@ -22,35 +22,31 @@ export function TDialogImage() {
         <Button title='Adicionar imagens as ordens' variant="addimg" size='icon'>
           <ImagePlus />
         </Button>
-
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Share link</DialogTitle>
+          <DialogTitle><ImagePlus /></DialogTitle>
           <DialogDescription>
-            Adicionar imagens.
+            Selecione as imagens a serem inseridas.
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
-              Link
+            <Label htmlFor="img" className="sr-only">
+              Imagens
             </Label>
             <Input
-              id="link"
-              defaultValue="https://ui.shadcn.com/docs/installation"
+              type="file"
+              id="img"
               readOnly
+              multiple
             />
           </div>
-          <Button type="submit" size="sm" className="px-3">
-            <span className="sr-only">Copy</span>
-            <Copy />
-          </Button>
         </div>
-        <DialogFooter className="sm:justify-start">
+        <DialogFooter className="justify-end">
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
+            <Button type="button" variant="add">
+              <Save /> Salvar
             </Button>
           </DialogClose>
         </DialogFooter>

@@ -16,13 +16,13 @@ const Pagination = ({ data }: PaginationProps) => {
             <li>
                 {data.prev_page_url !== null ? (
                     <Link
-                        className="flex items-center jus h-10 w-10 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-600 duration-300 rounded-full"
+                        className="flex items-center justify-center h-10 w-10 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-600 duration-300 rounded-full"
                         href={data.first_page_url}
                     >
                         <ChevronsLeft size={16} />
                     </Link>
                 ) : (
-                    <span className="flex items-center jus h-10 w-10 text-sm text-gray-300">
+                    <span className="flex items-center justify-center h-10 w-10 text-sm text-gray-300">
                         <ChevronsLeft size={16} />
                     </span>
                 )}

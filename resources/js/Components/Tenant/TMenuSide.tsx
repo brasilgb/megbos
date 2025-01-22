@@ -104,9 +104,9 @@ const TMenuSide = ({ colapside }: TMenuSideProps) => {
                         <ChevronDown size={20} className={`${openSubMenu ? 'rotate-0' : 'rotate-180'} duration-300 ${!colapside ? 'hidden' : ''}`} />
                     </div>
                     <div className={`pl-4 absolute  ${openSubMenu ? 'block' : 'hidden'} transition-all duration-300`}>
-                        <ul className={`flex flex-col gap-2 border-l ${!colapside ? 'bg-blue-primary pr-2 rounded-r-md shadow-md' : 'bg-transparent'}`}>
+                        <ul className={`flex flex-col gap-3 py-2 border-l ${!colapside ? 'bg-blue-primary pr-2 rounded-r-md shadow-md' : 'bg-transparent'}`}>
                             {sideNavItems2?.map((item: any, idx: number) => (
-                                <li key={idx} className={` text-white hover:text-sky-800/50 h-10 flex items-center ${!colapside && 'justify-center'} cursor-pointer transition-colors duration-300`}>
+                                <li key={idx} className={` text-white hover:text-sky-800/50 flex items-center ${!colapside && 'justify-center'} cursor-pointer transition-colors duration-300`}>
                                     <Link
                                         href={item.url}
                                         className='flex items-center gap-2 w-full'

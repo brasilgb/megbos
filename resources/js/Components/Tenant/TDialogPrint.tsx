@@ -1,59 +1,67 @@
-import { Copy, Printer } from "lucide-react"
+import { Copy, Printer, PrinterIcon } from "lucide-react"
 
 import { Button } from "@/Components/ui/button"
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/Components/ui/dialog"
-import { Input } from "@/Components/ui/input"
-import { Label } from "@/Components/ui/label"
+import { Link } from "@inertiajs/react"
 
 export function TDialogPrint() {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-
-        <Button title='Imprimir recibos e relatórios' variant="print" size='icon'>
-        <Printer />
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Share link</DialogTitle>
-          <DialogDescription>
-            Imprimir relatórios.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
-              Link
-            </Label>
-            <Input
-              id="link"
-              defaultValue="https://ui.shadcn.com/docs/installation"
-              readOnly
-            />
-          </div>
-          <Button type="submit" size="sm" className="px-3">
-            <span className="sr-only">Copy</span>
-            <Copy />
-          </Button>
-        </div>
-        <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  )
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button title='Imprimir recibos e relatórios' variant="print" size='icon'>
+                    <Printer />
+                </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+                <DialogHeader className="border-b pb-2">
+                    <DialogTitle>
+                        <PrinterIcon />
+                    </DialogTitle>
+                </DialogHeader>
+                <div className="flex flex-col items-center gap-4">
+                    <Button type="button" size="lg" variant="print" asChild>
+                        <Link
+                            className="w-full shadow-md"
+                            href={""}
+                        >
+                            Recibo de entrada de equipamento
+                        </Link>
+                    </Button>
+                    <Button type="button" size="lg" variant="print" asChild>
+                        <Link
+                            className="w-full shadow-md"
+                            href={""}
+                        >
+                            Orçamento de serviços
+                        </Link>
+                    </Button>
+                    <Button type="button" size="lg" variant="print" asChild>
+                        <Link
+                            className="w-full shadow-md"
+                            href={""}
+                        >
+                            Recibo de entrega de equipamento
+                        </Link>
+                    </Button>
+                    <Button type="button" size="lg" variant="print" asChild>
+                        <Link
+                            className="w-full shadow-md"
+                            href={""}
+                        >
+                            Checklist de entrada de equipamento
+                        </Link>
+                    </Button>
+                </div>
+            </DialogContent>
+        </Dialog>
+    )
 }
