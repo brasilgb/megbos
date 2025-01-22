@@ -52,9 +52,9 @@ const TMenuSide = ({ colapside }: TMenuSideProps) => {
     const sideNavItems2 = [
         {
             label: 'Empresa',
-            url: route('tdashboard', { company: params }),
+            url: route('empresa.index', { company: params }),
             icon: Minus,
-            active: route().current('tdashboard', { company: params })
+            active: route().current('empresa.index', { company: params })
         },
         {
             label: 'Impressões',

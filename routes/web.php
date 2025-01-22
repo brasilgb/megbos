@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Tenant\TAgendaController;
+use App\Http\Controllers\Tenant\TCompanyController;
 use App\Http\Controllers\Tenant\TCustomerController;
 use App\Http\Controllers\Tenant\THomeController;
 use App\Http\Controllers\Tenant\TMessageController;
@@ -25,6 +26,7 @@ Route::middleware('tenant')->domain('{company}.megbos.test')->group(function () 
     Route::resource('/produtos', TProductController::class)->parameters(['ordens' => 'ordem']);
     Route::resource('/mensagens', TMessageController::class)->parameters(['mensagens' => 'mensagem']);
     Route::resource('/agendamentos', TAgendaController::class)->parameters(['agendamentos' => 'agendamento']);
+    Route::resource('/empresa', TCompanyController::class);
 });
 
 Route::domain('megbos.test')->group(function () {
