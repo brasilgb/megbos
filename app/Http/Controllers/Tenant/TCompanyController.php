@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tenant\TCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -63,17 +64,16 @@ class TCompanyController extends Controller
     public function update(Request $request)
     {
         $tcompany = TCompany::first();
-        // dd($tcompany);
         $data = $request->except(['_method' ]);
-        $storePath = public_path('storage/images');
-        if (!file_exists($storePath)) {
-            mkdir($storePath, 0777, true);
+        $storePath = public_path('images');
+        if (!File::exists($storePath)) {
+            File::makeDirectory($storePath, 0777, true);
         };
         if ($request->hasfile('logo')) {
             $fileName = time() . '.' . $request->logo->extension();
             $request->logo->move($storePath, $fileName);
-            if (file_exists($storePath . DIRECTORY_SEPARATOR . $tcompany->logo)) {
-                unlink($storePath . DIRECTORY_SEPARATOR . $request->logo);
+            if (File::exists($storePath . DIRECTORY_SEPARATOR . $tcompany->logo)) {
+                unlink($storePath . DIRECTORY_SEPARATOR . $tcompany->logo);
             }
         }
         $data['logo'] = $request->hasfile('logo') ? $fileName : $tcompany->logo;

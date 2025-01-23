@@ -6,8 +6,10 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/Components/ui/form'
 import { Input } from '@/Components/ui/input'
 import TenantLayout from '@/Layouts/TenantLayout'
+import { maskCep, maskCpfCnpj, maskPhone, unMask } from '@/Utils/mask'
 import { Head, Link, router, usePage } from '@inertiajs/react'
 import { ArrowLeft, Building2, Save } from 'lucide-react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 const TCompany = ({ company }: any) => {
@@ -35,9 +37,19 @@ const TCompany = ({ company }: any) => {
 
     function onSubmit(values: any) {
         router.post(route("empresa.update", { 'empresa': company?.id, 'company': params }), {
-        // router.post(`empresa/${company.id}`, {
             _method: "put",
-            ...values,
+            empresa: values.empresa,
+            razao: values.razao,
+            cnpj: unMask(values.cnpj),
+            logo: values.logo,
+            endereco: values.endereco,
+            bairro: values.bairro,
+            uf: values.uf,
+            cidade: values.cidade,
+            cep: unMask(values.cep),
+            telefone: unMask(values.telefone),
+            site: values.site,
+            email: values.email
         });
     }
 
@@ -124,7 +136,7 @@ const TCompany = ({ company }: any) => {
                                         <FormItem>
                                             <FormLabel>CNPJ</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="" {...field} />
+                                                <Input placeholder="" {...field} value={maskCpfCnpj(field.value)} />
                                             </FormControl>
                                             <FormMessage >{errors.cnpj}</FormMessage>
                                         </FormItem>
@@ -139,7 +151,7 @@ const TCompany = ({ company }: any) => {
                                         <FormItem>
                                             <FormLabel>CEP</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="" {...field} />
+                                                <Input placeholder="" {...field} value={maskCep(field.value)} />
                                             </FormControl>
                                             <FormMessage >{errors.cep}</FormMessage>
                                         </FormItem>
@@ -206,7 +218,7 @@ const TCompany = ({ company }: any) => {
                                         <FormItem>
                                             <FormLabel>Telefone</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="" {...field} />
+                                                <Input placeholder="" {...field} value={maskPhone(field.value)} />
                                             </FormControl>
                                             <FormMessage >{errors.telefone}</FormMessage>
                                         </FormItem>
